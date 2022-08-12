@@ -1,10 +1,10 @@
-function [save_dir_name, save_name] = save_displacement_maps(limite_ratio,useMax)
-% graph distribution moving, non moving and all cells
+function [save_dir_name, save_name] = save_displacement_maps(limit_ratio,alignment_limit)
+% run before for graph alignement 
 
 dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole_asymmetry_motile\mat_files\';
+save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\alignment_motile\mat_files\';
 
 %% load functions
 addpath(strcat(dir_func,'Functions')); 
@@ -24,22 +24,21 @@ Pil_nums = [];
 for type=1:1:size(Pil_types_unique,1)
     m = m+1;
     index = find(contains(Pil_types, Pil_types_unique{type}));
-    Pil_type = Pil_types_unique{type};
+    Pil_type = Pil_types_unique{type}
     Pil_nums = [Pil_nums, sscanf(Pil_type,'%i')];
     dates = dates_all(index);
     intervals = intervals_all(index);
     
-    [moving_distribution{m,2},non_moving_distribution{m,2}]=get_pole_asymmetry_motile(dir_data,Pil_type,dates,intervals,limite_ratio,useMax);
-    moving_distribution{m,1}=Pil_type;
-    non_moving_distribution{m,1}=Pil_type;
+    [align_counts{m,2},align_counts{m,3}]=get_alignment_motile(dir_data,Pil_type,dates,intervals,limit_ratio,alignment_limit); 
+    align_counts{m,1}=Pil_type;
 
     clear dates intervals
-end    
+end  
 
-%% save data:
+%% save data 
 Pil_nums_unique = unique(Pil_nums);
-save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_pole_asymmetry_motile');
+save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_alignment_motile');
 save_dir_name = strcat(save_dir,save_name);
 
-save(save_dir_name,'moving_distribution','non_moving_distribution');
+save(save_dir_name,'align_counts','limit_ratio');
 end

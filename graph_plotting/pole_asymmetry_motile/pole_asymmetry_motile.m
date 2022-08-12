@@ -11,10 +11,13 @@ close all
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
 
+limite_ratio=0.69;
+useMax = 0; % Important: Added the option to use ratio of max pole intenstiy instead of mean. Function get_symm_asymm now requries useMax!
+
 %% Run save function
 addpath('functions');
 if ~only_plot
-    [data_dir_name, data_name] = save_pole_asymmetry_motile();
+    [data_dir_name, data_name] = save_pole_asymmetry_motile(limite_ratio,useMax);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole_asymmetry_motile\mat_files\';
     data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_pole_asymmetry_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
