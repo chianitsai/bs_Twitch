@@ -1,4 +1,4 @@
-function [BactID,cell_prop,Data_speed,BactID_non_moving,cell_prop_non_moving,Data_speed_non_moving] = study_single_video_phase_contrast(adresse,speed_limit,speed_f)
+function [BactID,cell_prop,Data_speed,BactID_non_moving,cell_prop_non_moving,Data_speed_non_moving] = study_BacStalk_Phase(adresse,speed_limit,speed_f)
 %% Step1: load data
 data_brut2=load('analyse_bacStalk.mat');
 data_brut=data_brut2;

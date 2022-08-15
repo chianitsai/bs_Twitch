@@ -14,11 +14,11 @@ Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
 
 % Select what part of the script to run
-change_parameters_format = 1; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
-do_BacStalk = 1; % 1 if YES 0 if NO
+change_parameters_format = 0; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
+do_BacStalk = 0; % 1 if YES 0 if NO
 do_SaveVariables = 1;  % 1 if YES 0 if NO
-do_video = 1; % 1 if YES 0 if NO: creates movies with below conditions
-do_nonmoving = 1; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold
+do_video = 0; % 1 if YES 0 if NO: creates movies with below conditions
+do_nonmoving = 0; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
 do_fluopoles = 0; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
 
 % for Backstalk:
@@ -27,7 +27,8 @@ min_cell_size='6'; %in pixel
 search_radius='20'; %in pixel
 dilation_width='0.5'; %in pixel
 
-speed_limit=1; % to change according to how well the cells are moving
+% speed limit (in pixel per frame, typically use 1, note: changes according to frame interval) 
+speed_limit=0;  % if set to 0 disables speed limit ("non_moving" cells will be empty) and not all downstream analysis scripts will work because some need a non-moving fraction
 
 %------------------------------------------------------------------------------------------------
 %% add path folder with functions
@@ -66,16 +67,21 @@ for d=1:1:size(dates,1)
           BacStalk_automated(adresse,time,mean_cell_size,min_cell_size,num2str(delta_x),search_radius,dilation_width)%directory,Pil_type,date,interval,Pil_nbr);
         end
         %% Step 4: Study video
+        [speed_filter]=check_speed(speed_limit);  
         [BactID,cell_prop,Data_intensity,Data_speed,Data_alignment,Data_projection...
-          ,BactID_non_moving,cell_prop_non_moving,Data_intensity_non_moving,Data_speed_non_moving]=study_single_video(adresse,speed_limit,1);
-        nbr_bact=size(BactID,1);
+         ,BactID_non_moving,cell_prop_non_moving,Data_intensity_non_moving,Data_speed_non_moving]=study_BacStalk_Fluo(adresse,speed_limit,speed_filter);
+         nbr_bact=size(BactID,1);
         %% Step 5: save all variables
-        filename=strcat(adresse,'\variables.mat');
+        if ~speed_filter
+            filename=strcat(adresse,'\variables_noSL.mat');
+        else
+            filename=strcat(adresse,'\variables.mat');
+        end
         save(filename)
         %% step 6: create images for video 
         if do_video
             create_image_for_video(adresse,time,do_fluopoles,cell_prop,1); % if fluo+poles desired, go to function and uncomment lines 10-31 (subj to change)
-            if do_nonmoving
+            if do_nonmoving & speed_filter
                 create_image_for_video(adresse,time,do_fluopoles,cell_prop_non_moving,0);
             end
         end
