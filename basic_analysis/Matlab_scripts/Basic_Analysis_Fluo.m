@@ -77,12 +77,14 @@ for d=1:1:size(dates,1)
         else
             filename=strcat(adresse,'\variables.mat');
         end
-        save(filename)
+        if do_SaveVariables
+            save(filename)
+        end
         %% step 6: create images for video 
         if do_video
-            create_image_for_video(adresse,time,do_fluopoles,cell_prop,1); % if fluo+poles desired, go to function and uncomment lines 10-31 (subj to change)
+            create_image_for_video(adresse,time,do_fluopoles,cell_prop,1,speed_filter); % if fluo+poles desired, go to function and uncomment lines 10-31 (subj to change)
             if do_nonmoving & speed_filter
-                create_image_for_video(adresse,time,do_fluopoles,cell_prop_non_moving,0);
+                create_image_for_video(adresse,time,do_fluopoles,cell_prop_non_moving,0,speed_filter);
             end
         end
         %% step FINAL: remove path

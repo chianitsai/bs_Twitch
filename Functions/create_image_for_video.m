@@ -1,4 +1,4 @@
-function []=create_image_for_video(adresse,time,do_fluopoles,cell_prop,moving)
+function []=create_image_for_video(adresse,time,do_fluopoles,cell_prop,moving,speed_filter)
 %% loop of every time
 nbr_bact=size(cell_prop,1);
 for t=1:1:time
@@ -20,7 +20,11 @@ if do_fluopoles
             end
         end
     if moving
-    folder=strcat(adresse,'\Movie\Fluo_with_poles_',num2str(t),'.tif');
+        if ~speed_filter
+            folder=strcat(adresse,'\Movie\Fluo_with_poles_noSL_',num2str(t),'.tif');
+        else
+            folder=strcat(adresse,'\Movie\Fluo_with_poles_',num2str(t),'.tif');
+        end
     else
     folder=strcat(adresse,'\Movie\Non_Moving_Fluo_with_poles_',num2str(t),'.tif');
     end
@@ -49,9 +53,13 @@ imshow(this_image)
         end
     end
 if moving
-folder=strcat(adresse,'\Movie\PC_with_trajectory_',num2str(t),'.tif');
+    if ~speed_filter
+        folder=strcat(adresse,'\Movie\PC_with_trajectory_noSL_',num2str(t),'.tif');
+    else
+        folder=strcat(adresse,'\Movie\PC_with_trajectory_',num2str(t),'.tif');
+    end
 else
-folder=strcat(adresse,'\Movie\Non_Moving_PC_with_trajectory_',num2str(t),'.tif');
+    folder=strcat(adresse,'\Movie\Non_Moving_PC_with_trajectory_',num2str(t),'.tif');
 end
 saveas(gcf,folder)
 close 
