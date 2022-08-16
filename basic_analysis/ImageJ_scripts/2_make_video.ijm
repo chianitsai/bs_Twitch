@@ -10,15 +10,17 @@
 
 // TO MODIFY:
 
-number=newArray("1153"); 
-Pil_type=newArray("Test_1153");
+number=newArray("1634"); 
+Pil_type=newArray("mNG_FimW");
 
-dates=newArray("20220721"); // once per whole number array
+dates=newArray("20220726"); // once per whole number array
 interval=newArray("5s interval-2h37"); // once per whole number array
 dir_data="G:/Marco/bs_Twitch_data_storage/";
 
 do_fluocircles = 0;
-do_nonmoving = 1;
+do_nonmoving = 0;
+
+addition = "_noSL"; // addition to the filename "C_with_trajectory+addition+_1.tif", eg "_noSL". If no addition leave empty: ""
 
 setBatchMode(true)
 
@@ -79,13 +81,13 @@ for (f = 0; f < lengthOf(number); f++) {
 				// -----------STEP 3: MOVING CELLS-----------------------------------------------------
 				if (do_fluocircles) {
 				 // STEP a): Fluorescent with poles
-					run("Image Sequence...", "open=["+directory+"/Fluo_with_poles_1.tif] file=Fluo_with_poles_ sort");
-					saveAs("Tiff", directory+"/Fluo_with_poles.tif");
+					run("Image Sequence...", "open=["+directory+"/Fluo_with_poles"+addition+"_1.tif] file=Fluo_with_poles"+addition+"_ sort");
+					saveAs("Tiff", directory+"/Fluo_with_poles"+addition+".tif");
 					close();
 					
 					list=getFileList(directory);
 					for (i=0; i<list.length ; i++){
-						if (startsWith(list[i],"Fluo_with_poles_")) {
+						if (startsWith(list[i],"Fluo_with_poles"+addition+"_")) {
 						//	print(directory+"/"+list[i]);
 							ok=File.delete(directory+"/"+list[i]);
 							}
@@ -93,13 +95,13 @@ for (f = 0; f < lengthOf(number); f++) {
 				}
 				
 				  // STEP b): phase contract with contours and trajectories	
-					run("Image Sequence...", "open=["+directory+"/PC_with_trajectory_1.tif] file=PC_with_trajectory_ sort");
-					saveAs("Tiff", directory+"/PC_with_trajectory.tif");
+					run("Image Sequence...", "open=["+directory+"/PC_with_trajectory"+addition+"_1.tif] file=PC_with_trajectory"+addition+"_ sort");
+					saveAs("Tiff", directory+"/PC_with_trajectory"+addition+".tif");
 					close();
 					
 					list=getFileList(directory);
 					for (i=0; i<list.length ; i++){
-						if (startsWith(list[i],"PC_with_trajectory_")) {
+						if (startsWith(list[i],"PC_with_trajectory"+addition+"_")) {
 							ok=File.delete(directory+"/"+list[i]);
 							}
 					}

@@ -3,7 +3,7 @@ close all
 clear all
 
 %% To Modify:
-directory='H:\Iscia_WS\PersatLAb-master\'; % project folder where scripts are
+dir_BacStalk='C:\Users\mkuehn\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where BacStalk modified is
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 directory_data='G:\Marco\bs_Twitch_data_storage\'; % folder where the data is (the one split by ImageJ
 
@@ -63,7 +63,7 @@ for d=1:1:size(dates,1)
         load('parameters.mat','delta_x');
         %% Step 3: BacStalk
         if do_BacStalk
-          addpath(strcat(directory,'BacStalk_modified')); 
+          addpath(strcat(dir_BacStalk,'BacStalk_modified')); 
           BacStalk_automated(adresse,time,mean_cell_size,min_cell_size,num2str(delta_x),search_radius,dilation_width)%directory,Pil_type,date,interval,Pil_nbr);
         end
         %% Step 4: Study video

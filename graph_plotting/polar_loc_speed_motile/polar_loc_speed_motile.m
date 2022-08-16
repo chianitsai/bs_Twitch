@@ -88,6 +88,9 @@ if plot_speed
             violin(x_val(strain), polar_loc_speed_motile_all_speeds{strain,3},'facealpha',0.42,'linewidth',0.5,'style',2,'side','right','scaling',scaling_violin)
         end
     end
+    no_move = 0.01; % manually entered rough threshold for non-moving cells
+    plot([0 nbr_strains+2],[no_move no_move],'k --','Linewidth',1)
+    text(0.03,no_move+0.003,"rough no-move threshold",'FontSize',8)
     title("Cell Speed");
     
     graph_type = 'speed_unfiltered';
