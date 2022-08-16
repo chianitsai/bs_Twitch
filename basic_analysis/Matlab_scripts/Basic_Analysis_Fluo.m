@@ -67,6 +67,7 @@ for d=1:1:size(dates,1)
           BacStalk_automated(adresse,time,mean_cell_size,min_cell_size,num2str(delta_x),search_radius,dilation_width)%directory,Pil_type,date,interval,Pil_nbr);
         end
         %% Step 4: Study video
+        % this step takes about 2 minutes per folder easily
         [speed_filter]=check_speed(speed_limit);  
         [BactID,cell_prop,Data_intensity,Data_speed,Data_alignment,Data_projection...
          ,BactID_non_moving,cell_prop_non_moving,Data_intensity_non_moving,Data_speed_non_moving]=study_BacStalk_Fluo(adresse,speed_limit,speed_filter);
