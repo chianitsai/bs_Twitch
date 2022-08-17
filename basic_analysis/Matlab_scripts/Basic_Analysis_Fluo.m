@@ -14,12 +14,12 @@ Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
 
 % Select what part of the script to run
-change_parameters_format = 0; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
-do_BacStalk = 0; % 1 if YES 0 if NO
+change_parameters_format = 1; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
+do_BacStalk = 1; % 1 if YES 0 if NO
 do_SaveVariables = 1;  % 1 if YES 0 if NO
-do_video = 0; % 1 if YES 0 if NO: creates movies with below conditions
-do_nonmoving = 0; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
-do_fluopoles = 0; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
+do_video = 1; % 1 if YES 0 if NO: creates movies with below conditions
+do_nonmoving = 1; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
+do_fluopoles = 1; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
 
 % for Backstalk:
 mean_cell_size='8'; %in pixel
