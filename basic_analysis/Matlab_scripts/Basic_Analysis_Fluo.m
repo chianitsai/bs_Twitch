@@ -14,12 +14,12 @@ Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
 
 % Select what part of the script to run
-change_parameters_format = 1; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
-do_BacStalk = 1; % 1 if YES 0 if NO
-do_SaveVariables = 1;  % 1 if YES 0 if NO
-do_video = 1; % 1 if YES 0 if NO: creates movies with below conditions
-do_nonmoving = 1; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
-do_fluopoles = 1; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
+change_parameters_format = 0; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
+do_BacStalk = 0; % 1 if YES 0 if NO
+do_SaveVariables = 0;  % 1 if YES 0 if NO
+do_video = 0; % 1 if YES 0 if NO: creates movies with below conditions
+do_nonmoving = 0; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
+do_fluopoles = 0; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
 
 % for Backstalk:
 mean_cell_size='8'; %in pixel
@@ -48,6 +48,7 @@ for d=1:1:size(dates,1)
     num_folders=length(folders)-2; % counting number of folders in adresse1 (interval folder)
 
     for folder=1:1:num_folders
+        
         %% Step 1:Load data
         adresse=strcat(adresse_data,'\',folders(folder+2).name);
         addpath(adresse) % for the folder
@@ -68,10 +69,16 @@ for d=1:1:size(dates,1)
         end
         %% Step 4: Study video
         % this step takes about 2 minutes per folder easily
-        [speed_filter]=check_speed(speed_limit);  
-        [BactID,cell_prop,Data_intensity,Data_speed,Data_alignment,Data_projection...
-         ,BactID_non_moving,cell_prop_non_moving,Data_intensity_non_moving,Data_speed_non_moving]=study_BacStalk_Fluo(adresse,speed_limit,speed_filter);
-         nbr_bact=size(BactID,1);
+        [speed_filter]=check_speed(speed_limit);
+        if isfile(strcat(adresse,"\C2-data.tif"))
+            [BactID,cell_prop,cell_prop_ch2,Data_intensity,Data_intensity_ch2,Data_speed,Data_alignment,Data_projection...
+             ,BactID_non_moving,cell_prop_non_moving,cell_prop_non_moving_ch2,Data_intensity_non_moving,Data_speed_non_moving]=study_BacStalk_Fluo_2ch(adresse,speed_limit,speed_filter);
+             nbr_bact=size(BactID,1);
+        else
+            [BactID,cell_prop,Data_intensity,Data_speed,Data_alignment,Data_projection...
+             ,BactID_non_moving,cell_prop_non_moving,Data_intensity_non_moving,Data_speed_non_moving]=study_BacStalk_Fluo(adresse,speed_limit,speed_filter);
+             nbr_bact=size(BactID,1);
+        end
         %% Step 5: save all variables
         if ~speed_filter
             filename=strcat(adresse,'\variables_noSL.mat');
@@ -90,6 +97,7 @@ for d=1:1:size(dates,1)
         end
         %% step FINAL: remove path
         rmpath(adresse)
+        
     end
      rmpath(adresse_data)
 end
