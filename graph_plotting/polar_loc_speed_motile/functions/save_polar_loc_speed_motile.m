@@ -1,4 +1,4 @@
-function [save_dir_name, save_name] = save_polar_loc_speed_motile(mean_median)
+function [save_dir_name, save_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition)
 
 func_mean_median = str2func(mean_median); % makes a function out of the string mean_median to calculate mean or median
 
@@ -44,12 +44,13 @@ dates = num(:,1); % read as a column vector
 dates_unique = unique(dates);
 Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
+nbr_Pil_types = size(Pil_types,1);
 
 %% Loop over all Pil_types + dates + intervals
 m = 0;
 Pil_nums = [];
-polar_loc_speed_motile_results = cell(size(Pil_types,1),7);
-for strain=1:1:size(Pil_types,1)
+polar_loc_speed_motile_results = cell(nbr_Pil_types,7);
+for strain=1:1:nbr_Pil_types
     m = m+1;
 
     Pil_type=convertCharsToStrings(Pil_types{strain});
@@ -70,7 +71,7 @@ for strain=1:1:size(Pil_types,1)
     addpath(strcat(dir_func,'Functions'));
     adresse=strcat(adresse_data,num2str(folder));
     addpath(adresse)
-    load(strcat(adresse,'\variables_noSL.mat'),'cell_prop','BactID','Data_speed')
+    load(strcat(adresse,'\variables',addition,'.mat'),'cell_prop','BactID','Data_speed')
     load(strcat(adresse,'\parameters.mat'),'delta_x');
     
     nbr_bact=size(BactID,1);
@@ -120,12 +121,12 @@ end
 
 %% Step 2: Save speed and polar loc results concatenated together for distribution plotting
 
-Pil_types=unique(Pil_types);
-nbr_strains = size(Pil_types,1);
+Pil_types_unique=unique(Pil_types);
+nbr_strains = size(Pil_types_unique,1);
 polar_loc_speed_motile_concat = cell(nbr_strains,4);
 
 for strain = 1:1:nbr_strains
-    Pil_type=Pil_types{strain};
+    Pil_type=Pil_types_unique{strain};
     % find replicates with emtpy speed cells and delete them
     index_type=find([polar_loc_speed_motile_results{:,1}]==Pil_type);
     nbr_replicates = size(index_type,2);
@@ -175,9 +176,144 @@ polar_loc_speed_motile_concat{strain,6} = total_ratio_concat; % single track tot
 polar_loc_speed_motile_concat{strain,7} = size(speeds_concat,2); % number of tracks
 end
 
+%% Repeat for channel 2 if it exists
+
+if two_ch
+    m = 0;
+    Pil_nums = [];
+    polar_loc_speed_motile_results_ch2 = cell(nbr_Pil_types,7);
+    for strain=1:1:nbr_Pil_types
+        m = m+1;
+
+        Pil_type=convertCharsToStrings(Pil_types{strain});
+        Pil_nums = [Pil_nums, sscanf(Pil_type,'%i')];
+        date=convertCharsToStrings(num2str(dates(strain)));
+        interval=convertCharsToStrings(intervals{strain});
+
+        disp(strcat("Working on strain ",Pil_type," date ",date," ",interval," channel 2"))
+
+        adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
+        num_folder=length(dir(adresse_data))-2;
+
+      %% Step 1: get and save speed + polar vs cytoplasmic ratio
+
+      data_comb_folders = [];
+      for folder=1:1:num_folder
+        %% Load variables and add path
+        addpath(strcat(dir_func,'Functions'));
+        adresse=strcat(adresse_data,num2str(folder));
+        addpath(adresse)
+        load(strcat(adresse,'\variables',addition,'.mat'),'cell_prop_ch2','BactID','Data_speed')
+        load(strcat(adresse,'\parameters.mat'),'delta_x');
+
+        nbr_bact=size(BactID,1);
+
+        %% loop over all cells (rather all tracks)
+
+        data = cell(nbr_bact,8);
+        for nbr=1:1:nbr_bact    
+            %% Get basic track information
+            data{nbr,1} = strcat("Folder ",num2str(folder)); % folder number
+            data{nbr,2} = cell_prop_ch2{nbr,1}; % track ID
+            data{nbr,3} = cell_prop_ch2{nbr,2}; % number of frames tracked 
+
+            %% Get speed averaged over time and from frame 2 to last
+            data{nbr,4} = Data_speed{nbr, 4}(2:end,1);
+            data{nbr,5} = func_mean_median(Data_speed{nbr, 4}(2:end,1)); % speed of cell for every frame; filtered speed (if speed_limit = 0 this is like the unfiltered speed)
+
+            %% Get polar vs cytoplasmic ratio
+
+            data{nbr,6} = [cell_prop_ch2{nbr,6}{:,2}]' ./ cell_prop_ch2{nbr,12}; % ratio mean of mean pole intensity divided by mean cytoplamisc intensity
+            data{nbr,7} = func_mean_median(data{nbr,6});
+            data{nbr,8} = [cell_prop_ch2{nbr,6}{:,3}]' ./ cell_prop_ch2{nbr,12}; % ratio max of mean pole intensity divided by mean cytoplamisc intensity
+            data{nbr,9} = func_mean_median(data{nbr,8});
+            data{nbr,10} = cell_prop_ch2{nbr,11} ./ cell_prop_ch2{nbr,13}; % ratio mean of mean pole intensity divided by mean cytoplamisc intensity
+            data{nbr,11} = func_mean_median( data{nbr,10});
+    %         pole_mean = cell_prop_ch2{nbr, 6}{1, 1};  % mean polar intensity; mean/median over time; MAX of the two poles, i.e. takes the value of the brighter pole
+    %         cyto_mean = [];% mean cytoplasmic intensity; mean/median over time
+
+    %         pole_total = [];% total polar intensity; mean/median over time
+    %         cyto_total = [];% total cytoplasmic intensity; mean/median over time
+
+        end
+        data_comb_folders = [data_comb_folders;data]; % combines the data of all folders
+
+      end
+
+        polar_loc_speed_motile_results_ch2{m,1} = Pil_type;
+        polar_loc_speed_motile_results_ch2{m,2} = date;
+        polar_loc_speed_motile_results_ch2{m,3} = data_comb_folders; % track ID, tracked frames and 
+        polar_loc_speed_motile_results_ch2{m,4} = median([polar_loc_speed_motile_results_ch2{m,3}{:,5}]); % median speed of this replicate
+        polar_loc_speed_motile_results_ch2{m,5} = median([polar_loc_speed_motile_results_ch2{m,3}{:,7}]); % median mean-mean polar ratio of this replicate
+        polar_loc_speed_motile_results_ch2{m,6} = median([polar_loc_speed_motile_results_ch2{m,3}{:,9}]); % median max-mean polar ratiospeed of this replicate
+        polar_loc_speed_motile_results_ch2{m,7} = median([polar_loc_speed_motile_results_ch2{m,3}{:,11}]); % median total int polar ratio of this replicate
+
+      rmpath(adresse)
+    end
+
+    %% Step 2: Save speed and polar loc results concatenated together for distribution plotting
+
+    polar_loc_speed_motile_concat_ch2 = cell(nbr_strains,4);
+
+    for strain = 1:1:nbr_strains
+        Pil_type=Pil_types_unique{strain};
+        % find replicates with emtpy speed cells and delete them
+        index_type=find([polar_loc_speed_motile_results_ch2{:,1}]==Pil_type);
+        nbr_replicates = size(index_type,2);
+        is_emtpy = zeros(nbr_replicates,1);
+        for rep = 1:1:nbr_replicates
+            if isempty(polar_loc_speed_motile_results_ch2{index_type(rep),3})
+                is_emtpy(rep) = 1;
+            else
+                is_emtpy(rep) = 0;
+            end
+        end
+        index_empty = find(is_emtpy);
+        if ~isempty(index_empty)
+            polar_loc_speed_motile_results_ch2(index_type(index_empty),:)=[];
+        end
+
+        % save single-track speeds and polar ratios in concat cell
+        speeds_concat = [];
+        mean_mean_ratio_concat = [];
+        max_mean_ratio_concat = [];
+        total_ratio_concat = [];
+        date_concat = [];
+        for rep = 1:1:nbr_replicates
+            if iscell(polar_loc_speed_motile_results_ch2{index_type(rep),3})
+
+            % for each replicate get the data of individual tracks
+            speeds_rep = [polar_loc_speed_motile_results_ch2{index_type(rep),3}{:,5}];
+            mean_mean_ratio_rep = [polar_loc_speed_motile_results_ch2{index_type(rep),3}{:,7}];
+            max_mean_ratio_rep = [polar_loc_speed_motile_results_ch2{index_type(rep),3}{:,9}];
+            total_ratio_rep = [polar_loc_speed_motile_results_ch2{index_type(rep),3}{:,11}];
+
+            % concatenate the median data for al tracks for all replicates
+            % also all dates
+            speeds_concat = [speeds_concat,speeds_rep];
+            mean_mean_ratio_concat = [mean_mean_ratio_concat,mean_mean_ratio_rep];
+            max_mean_ratio_concat = [max_mean_ratio_concat,max_mean_ratio_rep];
+            total_ratio_concat = [total_ratio_concat,total_ratio_rep];
+            date_concat = [date_concat;polar_loc_speed_motile_results_ch2{rep, 2}];
+            end
+        end
+    polar_loc_speed_motile_concat_ch2{strain,1} = Pil_type; % Pil type of the data (for documentation purpose)
+    polar_loc_speed_motile_concat_ch2{strain,2} = date_concat; % all dates of the data (for documentation purpose)
+    polar_loc_speed_motile_concat_ch2{strain,3} = speeds_concat; % speed in µm/s for all replicates combined (mean or median of all tracks of all frames
+    polar_loc_speed_motile_concat_ch2{strain,4} = mean_mean_ratio_concat; % single track mean-mean polar ratios of this replicate
+    polar_loc_speed_motile_concat_ch2{strain,5} = max_mean_ratio_concat; % single track max-mean polar ratios of this replicate
+    polar_loc_speed_motile_concat_ch2{strain,6} = total_ratio_concat; % single track total int polar ratios of this replicate
+    polar_loc_speed_motile_concat_ch2{strain,7} = size(speeds_concat,2); % number of tracks
+    end
+end
+
 Pil_nums_unique = unique(Pil_nums);
 save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_polar_loc_speed_motile');
 save_dir_name = strcat(save_dir,save_name);
 
-save(save_dir_name,'polar_loc_speed_motile_results','polar_loc_speed_motile_concat');
+if two_ch
+    save(save_dir_name,'polar_loc_speed_motile_results','polar_loc_speed_motile_concat','polar_loc_speed_motile_results_ch2','polar_loc_speed_motile_concat_ch2');
+else
+    save(save_dir_name,'polar_loc_speed_motile_results','polar_loc_speed_motile_concat');
+end
 end
