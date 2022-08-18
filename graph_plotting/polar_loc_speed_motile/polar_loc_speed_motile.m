@@ -4,8 +4,8 @@ clear all
 close all
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
-save_graphs = 0;
-two_ch = 1; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
+save_graphs = 1;
+two_ch = 0; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
 
 addition = '_noSL'; % filename addition of the variables.mat file: '_noSL' if speed_limit = 0
 

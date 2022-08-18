@@ -1,7 +1,7 @@
 // @File(Label="Select data path", style="directory") choose_1
 // @File(Label="Select data path", style="directory") choose_2
 // @File(Label="Select data path", style="directory") choose_3
-
+// @File(Label="Select data path", style="directory") choose_4
 
 // delete or add above lines as required
 // opens all movie folders in selected directory
@@ -75,7 +75,7 @@ for(j=0; j<file.length; j++) {
 
 print("Done with "+dir);
 
-/*
+
 dir=choose_4;
 print(dir);
 
