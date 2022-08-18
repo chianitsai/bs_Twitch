@@ -308,7 +308,7 @@ if two_ch
 end
 
 Pil_nums_unique = unique(Pil_nums);
-save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_polar_loc_speed_motile');
+save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_polar_loc_speed_motile',addition);
 save_dir_name = strcat(save_dir,save_name);
 
 if two_ch
