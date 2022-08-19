@@ -10,19 +10,21 @@
 index_int=2; // normally 2, for divided images 4
 index_time=3; // normally 3, for divided images 5
 
-number=newArray("1631"); 
-Pil_type=newArray("mNG_FimW_FimX_mScI"); 
+number=newArray("1631","1631","1631","1631","1632","1632","1632","1633","1633","1633"); 
+Pil_type=newArray("mNG_FimW FimX_mScI","mNG_FimW FimX_mScI","mNG_FimW FimX_mScI","mNG_FimW FimX_mScI","mNG_FimW FimX_mScI cpdA-","mNG_FimW FimX_mScI cpdA-","mNG_FimW FimX_mScI cpdA-","mNG_FimW FimX_mScI cpdA- pch-","mNG_FimW FimX_mScI cpdA- pch-","mNG_FimW FimX_mScI cpdA- pch-"); 
 
 same_date = 0; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20220726 Still and Twitch 883 1631 1634 1635 1638"); // per number use / instead of \
-date=newArray("20220726"); // per number
+folder_name=newArray("20220726 Still and Twitch 883 1631 1634 1635 1638","20220728 Still and Twitch 1631 1632 1633 1638","20220729 Still and Twitch 1631 1632 1633 1638","20220804 Still and Twitch 1631 1634 1635","20220727 Still and Twitch 1632 1633 1636 1637","20220728 Still and Twitch 1631 1632 1633 1638","20220729 Still and Twitch 1631 1632 1633 1638","20220727 Still and Twitch 1632 1633 1636 1637","20220728 Still and Twitch 1631 1632 1633 1638","20220729 Still and Twitch 1631 1632 1633 1638"); // per number use / instead of \
+date=newArray("20220726","20220728","20220729","20220804","20220727","20220728","20220729","20220727","20220728","20220729"); // per number
 
 match=".*2h37_5s.*" // what to look for in file name
 dir_save="G:/Marco/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
 
 only_PC=0 // 1 if YES, 0 if NO
-correct_drift=0 // 1 if YES, 0 if NO -> runs StackReg_translation plugin !!! does NOT work well with fluo and PC images!!!
+correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
+
+reg_file_loc = "C:/Users/mkuehn/PostDoc Lausanne/Temporary Data/TransformationMatrices.txt"; // folder where registration file is saved, must exist
 
 // STEP 1: chose folder nd2 douments are
 //dir_data=getDirectory("Choose a Directory")
@@ -88,32 +90,12 @@ for(s=0; s<lengthOf(number);s++){
 			
 		// STEP 4: split the channels
 			run("Split Channels");
-			
-		// STEP 5 : save fluorescent channel al C1-data and C2-data
-			// C1 usually mNeonGreen
-			selectWindow("C2-data"+".tif");
-			run("Subtract Background...", "rolling=50 stack");
-			if(correct_drift){
-				run("StackReg ", "transformation=Translation");
-			}
-			C1_data=new_directory+"/C1-data.tif";
-			saveAs("Tiff", C1_data);
-			close();
 
-			// C2 usually mScarlet-I
-			selectWindow("C3-data"+".tif");
-			run("Subtract Background...", "rolling=50 stack");
-			if(correct_drift){
-				run("StackReg ", "transformation=Translation");
-			}
-			C2_data=new_directory+"/C2-data.tif";
-			saveAs("Tiff", C2_data);
-			close();
-		
-		// STEP 6 : save phase contract channel al C0-data + save each time frae separately (for BackStalk)
+		// STEP 5 : save phase contract channel al C0-data + save each time frae separately (for BackStalk)
 			selectWindow("C1-data"+".tif");
 			if(correct_drift){
-				run("StackReg ", "transformation=Translation");
+				stack_name_ref = "C1-data"+".tif";
+				run("MultiStackReg", "stack_1="+stack_name_ref+" action_1=Align file_1=["+reg_file_loc+"] stack_2=None action_2=Ignore file_2=[] transformation=Translation save");
 			}
 			C0_data=new_directory+"/C0-data.tif";
 			saveAs("Tiff", C0_data);
@@ -121,10 +103,37 @@ for(s=0; s<lengthOf(number);s++){
 			close();
 			}
 			
+		// STEP 6 : save fluorescent channel al C1-data and C2-data
+			// C1 usually mNeonGreen
+			selectWindow("C2-data"+".tif");
+			run("Subtract Background...", "rolling=50 stack");
+			if(correct_drift){
+				stack_name_fluo_1 = "C2-data"+".tif";
+				run("MultiStackReg", "stack_1="+stack_name_fluo_1+" action_1=[Load Transformation File] file_1=["+reg_file_loc+"] stack_2=None action_2=Ignore file_2=[] transformation=Translation");
+			}
+			C1_data=new_directory+"/C1-data.tif";
+			run("Yellow");
+			saveAs("Tiff", C1_data);
+			close();
+
+			// C2 usually mScarlet-I
+			selectWindow("C3-data"+".tif");
+			run("Subtract Background...", "rolling=50 stack");
+			if(correct_drift){
+				stack_name_fluo_2 = "C3-data"+".tif";
+				run("MultiStackReg", "stack_1="+stack_name_fluo_2+" action_1=[Load Transformation File] file_1=["+reg_file_loc+"] stack_2=None action_2=Ignore file_2=[] transformation=Translation");
+			}
+			C2_data=new_directory+"/C2-data.tif";
+			run("Yellow");
+			saveAs("Tiff", C2_data);
+			close();
+		
+			
 			if(only_PC) {	
 		// STEP 6 : save phase contract channel al C0-data + save each time frae separately (for BackStalk)
 			if(correct_drift){
-				run("StackReg ", "transformation=Translation");
+				stack_name_ref = "C1-data"+".tif";
+				run("MultiStackReg", "stack_1="+stack_name_ref+" action_1=Align file_1=["+reg_file_loc+"] stack_2=None action_2=Ignore file_2=[] transformation=Translation save");
 			}
 			C0_data=new_directory+"/C0-data.tif";
 			saveAs("Tiff", C0_data);
