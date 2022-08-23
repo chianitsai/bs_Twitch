@@ -4,8 +4,8 @@ clear all
 close all
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
-save_graphs = 1;
-two_ch = 0; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
+save_graphs = 0;
+two_ch = 1; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
 
 addition = '_noSL'; % filename addition of the variables.mat file: '_noSL' if speed_limit = 0
 
@@ -17,7 +17,7 @@ if ~only_plot
     [data_dir_name, data_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\polar_loc_speed_motile\mat_files\';
-    data_name = '20220726_20220727_20220728_20220729_20220804_Strains_1631_1632_1633_polar_loc_speed_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_name = 'name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -47,7 +47,7 @@ y_polLoc = 2.5;  % y-axis of pole vs cytoplasm ratio plots
 scaling_violin_speed = 0.02; % scaling width of violin plots
 scaling_violin_polLoc = 0.2; % scaling width of violin plots
 
-no_move = 0.01; % manually entered rough threshold for non-moving cells
+no_move = 0.007; % manually entered rough threshold for non-moving cells
 no_polLoc = 0.65; % manually entered rough threshold for non-moving cells
 
 aspect_data = 2; % 1/aspect_speed = width of the speed plot

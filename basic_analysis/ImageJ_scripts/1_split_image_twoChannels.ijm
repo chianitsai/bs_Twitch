@@ -24,7 +24,7 @@ dir_save="G:/Marco/bs_Twitch_data_storage/"; // !! change here the directory whe
 only_PC=0 // 1 if YES, 0 if NO
 correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
 
-reg_file_loc = "C:/Users/mkuehn/PostDoc Lausanne/Temporary Data/TransformationMatrices.txt"; // folder where registration file is saved, must exist
+reg_file_loc = "C:/Users/mkuehn/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
 
 // STEP 1: chose folder nd2 douments are
 //dir_data=getDirectory("Choose a Directory")
