@@ -31,3 +31,10 @@ The general workflow is as follows:
  * Step 3: **Verifying correct tracking** by generating and checking movies
  * Step 4: Running downstream graph plotting scripts as required 
  
+ # Requirements
+ 
+ * Type of data
+ * ImageJ / Fiji / plugins - version
+ * Matlab / toolboxes - version
+ * BacStalk - version
+ 
