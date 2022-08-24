@@ -1,4 +1,4 @@
-function [save_dir_name, save_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition)
+function [save_dir_name, save_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition,save_dir)
 
 func_mean_median = str2func(mean_median); % makes a function out of the string mean_median to calculate mean or median
 
@@ -36,7 +36,7 @@ func_mean_median = str2func(mean_median); % makes a function out of the string m
 dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\polar_loc_speed_motile\mat_files\';
+save_dir = strcat(save_dir,'mat_files\');
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
 [num,txt,~]=xlsread(strcat(dir_data_input,'Data_Input_Graph_Plotting.xlsx')); % must be located in 'dir_data_input'

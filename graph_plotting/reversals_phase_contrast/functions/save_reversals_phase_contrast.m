@@ -1,4 +1,4 @@
-function [save_dir_name, save_name] = save_reversals_phase_contrast()
+function [save_dir_name, save_name] = save_reversals_phase_contrast(save_dir)
 %This script is to:
     %1. save the reversal frequency
     %2. calculate the number of reversals and jiggles (in the end, the separation didn't make so much sense, so we combined both again into directional changes in general)
@@ -41,7 +41,7 @@ close all
 dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\reversals_phase_contrast\mat_files\';
+save_dir = strcat(save_dir,'mat_files\');
 
 
 %% To modify:

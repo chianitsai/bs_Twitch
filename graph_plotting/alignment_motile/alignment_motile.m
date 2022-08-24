@@ -4,6 +4,10 @@
 clear all
 close all
 
+%% Pre-run Settings
+dir_func='C:\Users\mkuehn\git\bs_Twitch\';
+save_dir = 'G:\Marco\bs_Twitch_results\alignment_motile\';
+
 %% Modify
 only_plot = 0; % if 0 reads, analyses and saves before plotting
 
@@ -15,19 +19,14 @@ alignment_limit=0; % alignment factor threshold (counts cells with alignment fac
 %% Run save function
 addpath('functions');
 if ~only_plot
-    [data_dir_name, data_name] = save_alignment_motile(limit_ratio,alignment_limit);
+    [data_dir_name, data_name] = save_alignment_motile(limit_ratio,alignment_limit,save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\alignment_motile\mat_files\';
     data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_alignment_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
-
-%% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\alignment_motile\';
 save_name = regexprep(data_name, '_alignment_motile','_');
-
 load(data_dir_name) % loads analysis file that was done with function "save_displacement_maps.m"
 
 %% Strains % Could still be done in a more elegant way!

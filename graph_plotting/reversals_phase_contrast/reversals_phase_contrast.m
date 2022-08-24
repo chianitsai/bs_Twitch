@@ -2,6 +2,10 @@
 clear all
 close all
 
+%% Pre-run Settings
+dir_func='C:\Users\mkuehn\git\bs_Twitch\';
+save_dir = 'G:\Marco\bs_Twitch_results\reversals_phase_contrast\';
+
 %% To modify:
 title_graph="Time on surface = 2h"; %    Min limit time=2   Reversal time=5';
 
@@ -20,18 +24,14 @@ only_plot = 1; % if 0 reads, analyses and saves before plotting
 %% Run save function
 addpath('functions');
 if ~only_plot
-    [data_dir_name, data_name] = save_reversals_phase_contrast();
+    [data_dir_name, data_name] = save_reversals_phase_contrast(save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\reversals_phase_contrast\mat_files\';
     data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_reversals_phase_contrast'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
-%% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\reversals_phase_contrast\';
 save_name = regexprep(data_name, '_reversals_phase_contrast','_');
-
 load(data_dir_name) % loads analysis file that was done with function "save_displacement_maps.m"
 
 % Strains

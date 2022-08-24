@@ -3,7 +3,11 @@
 clear all
 close all
 
-only_plot = 1; % if 0 reads, analyses and saves before plotting
+%% Pre-run Settings
+dir_func='C:\Users\mkuehn\git\bs_Twitch\';
+save_dir = 'G:\Marco\bs_Twitch_results\polar_loc_speed_motile\';
+
+only_plot = 0; % if 0 reads, analyses and saves before plotting
 save_graphs = 0;
 two_ch = 1; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
 
@@ -16,18 +20,14 @@ mean_median = 'mean'; % defines if mean or median speed over all tracked timepoi
 %% Run save function
 addpath('functions');
 if ~only_plot
-  [data_dir_name, data_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition);
+  [data_dir_name, data_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition,save_dir);
 else
-  data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\polar_loc_speed_motile\mat_files\';
-  data_name = '20220727_20220728_20220729_Strains_1633_polar_loc_speed_motile_noSL'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+  data_dir = strcat(save_dir,'mat_files\');
+  data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
   data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
-%% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\polar_loc_speed_motile\';
 save_name = regexprep(data_name, strcat('_polar_loc_speed_motile',addition),'_');
-
 load(data_dir_name) % loads analysis file that was done with function "save_displacement_maps.m"
 
 %% set options
@@ -40,8 +40,8 @@ plot_speed = 1; % plots speed
 plot_polLoc = 1; % plots ratio polar intensity vs cytoplasm (polar localization motile index)
 plot_polLoc_speed = 1; % plots polar localization motile index vs speed, single track
 plot_polLoc_vs = 1; % plots polar localization motile index of channel 1 vs 2
-plot_polLoc_speed_ch1polar = 0; % I wouldn't do this for more than 1 strain
-plot_polLoc_vs_ch1polar = 0; % I wouldn't do this for more than 1 strain
+plot_polLoc_speed_ch1polar = 1; % I wouldn't do this for more than 1 strain
+plot_polLoc_vs_ch1polar = 1; % I wouldn't do this for more than 1 strain
 
 rep_colour = 1; % if replicates are coloured separately, works for max 6 replicates
 type_ratio = "mean"; % "mean" or "max" or "total"

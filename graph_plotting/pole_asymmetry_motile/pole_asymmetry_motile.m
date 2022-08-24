@@ -9,6 +9,10 @@
 clear all
 close all
 
+%% Pre-run Settings
+dir_func='C:\Users\mkuehn\git\bs_Twitch\';
+save_dir = 'G:\Marco\bs_Twitch_results\pole_asymmetry_motile\';
+
 only_plot = 0; % if 0 reads, analyses and saves before plotting
 
 limite_ratio=0.69;
@@ -17,18 +21,14 @@ useMax = 0; % Important: Added the option to use ratio of max pole intenstiy ins
 %% Run save function
 addpath('functions');
 if ~only_plot
-    [data_dir_name, data_name] = save_pole_asymmetry_motile(limite_ratio,useMax);
+    [data_dir_name, data_name] = save_pole_asymmetry_motile(limite_ratio,useMax,save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole_asymmetry_motile\mat_files\';
     data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_pole_asymmetry_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
-%% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole_asymmetry_motile\';
 save_name = regexprep(data_name, '_pole_asymmetry_motile','_');
-
 load(data_dir_name) % loads analysis file that was done with function "save_displacement_maps.m"
 
 %% Strains % Could still be done in a more elegant way!

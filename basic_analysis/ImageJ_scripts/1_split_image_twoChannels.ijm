@@ -10,15 +10,15 @@
 index_int=2; // normally 2, for divided images 4
 index_time=3; // normally 3, for divided images 5
 
-number=newArray("1631","1631","1631","1631","1632","1632","1632","1633","1633","1633"); 
-Pil_type=newArray("mNG_FimW FimX_mScI","mNG_FimW FimX_mScI","mNG_FimW FimX_mScI","mNG_FimW FimX_mScI","mNG_FimW FimX_mScI cpdA-","mNG_FimW FimX_mScI cpdA-","mNG_FimW FimX_mScI cpdA-","mNG_FimW FimX_mScI cpdA- pch-","mNG_FimW FimX_mScI cpdA- pch-","mNG_FimW FimX_mScI cpdA- pch-"); 
+number=newArray("1633"); 
+Pil_type=newArray("mNG_FimW FimX_mScI cpdA- pch-"); 
 
 same_date = 0; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20220726 Still and Twitch 883 1631 1634 1635 1638","20220728 Still and Twitch 1631 1632 1633 1638","20220729 Still and Twitch 1631 1632 1633 1638","20220804 Still and Twitch 1631 1634 1635","20220727 Still and Twitch 1632 1633 1636 1637","20220728 Still and Twitch 1631 1632 1633 1638","20220729 Still and Twitch 1631 1632 1633 1638","20220727 Still and Twitch 1632 1633 1636 1637","20220728 Still and Twitch 1631 1632 1633 1638","20220729 Still and Twitch 1631 1632 1633 1638"); // per number use / instead of \
-date=newArray("20220726","20220728","20220729","20220804","20220727","20220728","20220729","20220727","20220728","20220729"); // per number
+folder_name=newArray("20220812 Twitching Jenal FimXW double"); // per number use / instead of \
+date=newArray("20220812"); // per number
 
-match=".*2h37_5s.*" // what to look for in file name
+match=".*1p5h37_5s.*" // what to look for in file name
 dir_save="G:/Marco/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
 
 only_PC=0 // 1 if YES, 0 if NO

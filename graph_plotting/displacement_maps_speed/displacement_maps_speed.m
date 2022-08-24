@@ -20,24 +20,26 @@
 clear all
 close all
 
+%% Pre-run Settings
+dir_func='C:\Users\mkuehn\git\bs_Twitch\';
+save_dir = 'G:\Marco\bs_Twitch_results\displacement_maps_speed\';
+
 only_plot = 0; % if 0 reads, analyses and saves before plotting
 
 %% Run save function
 addpath('functions');
 if ~only_plot
-    [data_dir_name, data_name] = save_displacement_maps();
+    [data_dir_name, data_name] = save_displacement_maps(save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\displacement_maps_speed\mat_files\';
     data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
-%% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\displacement_maps_speed\';
 save_name = regexprep(data_name, '_displacement_maps_speed','_');
-
 load(data_dir_name) % loads analysis file that was done with function "save_displacement_maps.m"
+
+%% set options
 
 tos = "2h";
 IntervalTime = 5; % in sec

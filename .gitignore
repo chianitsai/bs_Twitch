@@ -1,6 +1,11 @@
 # add file names or file endings here to exclude them from version control and github synch #
 # format example for file endings: *.exe 
 #############################################################################################
+
+# exlude all file ending with:
 *.svg
 *.fig
 *.lnk
+
+# exclude specific files:
+TransformationMatrices.txt
