@@ -1,7 +1,7 @@
 % !This code needs to be used after running 'Split_time.ijm' an ImageJ macro!
 close all
 clear all
-
+tic
 %% To Modify:
 dir_BacStalk='C:\Users\mkuehn\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where BacStalk modified is
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
@@ -47,7 +47,7 @@ for d=1:1:size(dates,1)
     folders=dir(adresse_data); % column array with with folder name
     num_folders=length(folders)-2; % counting number of folders in adresse1 (interval folder)
 
-    for folder=1:1:num_folders
+    for folder=2:1:num_folders
         
         %% Step 1:Load data
         adresse=strcat(adresse_data,'\',folders(folder+2).name);
@@ -101,3 +101,4 @@ for d=1:1:size(dates,1)
     end
      rmpath(adresse_data)
 end
+toc
