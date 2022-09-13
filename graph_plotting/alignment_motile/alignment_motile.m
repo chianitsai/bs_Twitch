@@ -22,7 +22,7 @@ if ~only_plot
     [data_dir_name, data_name] = save_alignment_motile(limit_ratio,alignment_limit,save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\alignment_motile\mat_files\';
-    data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_alignment_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -31,8 +31,8 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 
 %% Strains % Could still be done in a more elegant way!
 strain_1 = 1;
-strain_2 = 1;
-strain_3 = 1;
+strain_2 = 0;
+strain_3 = 0;
 strain_4 = 0;
 strain_5 = 0;
 

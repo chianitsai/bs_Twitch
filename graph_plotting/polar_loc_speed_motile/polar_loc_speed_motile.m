@@ -7,8 +7,8 @@ close all
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 save_dir = 'G:\Marco\bs_Twitch_results\polar_loc_speed_motile\';
 
-only_plot = 0; % if 0 reads, analyses and saves before plotting
-save_graphs = 0;
+only_plot = 1; % if 0 reads, analyses and saves before plotting
+save_graphs = 1;
 two_ch = 1; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
 
 addition = '_noSL'; % filename addition of the variables.mat file: '_noSL' if speed_limit = 0
@@ -23,7 +23,7 @@ if ~only_plot
   [data_dir_name, data_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition,save_dir);
 else
   data_dir = strcat(save_dir,'mat_files\');
-  data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+  data_name = '20220728_20220729_20220812_20220825_Strains_1633_polar_loc_speed_motile_noSL'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
   data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -46,10 +46,13 @@ plot_polLoc_vs_ch1polar = 1; % I wouldn't do this for more than 1 strain
 rep_colour = 1; % if replicates are coloured separately, works for max 6 replicates
 type_ratio = "mean"; % "mean" or "max" or "total"
 
-y_speed = 0.1; % y-axis of speed plots
-y_polLoc = 2.5; % y-axis of pole vs cytoplasm ratio plots
+y_speed_vio = 0.1; % y-axis of speed plots 
+y_polLoc_vio = 2.5; % y-axis of pole vs cytoplasm ratio plots
 scaling_violin_speed = 0.02; % scaling width of violin plots
 scaling_violin_polLoc = 0.2; % scaling width of violin plots
+
+y_speed_st = 0.5; % y-axis of speed plots individual tracks
+y_polLoc_st = 2.5; % y-axis of pole vs cytoplasm ratio plotsindividual tracks
 
 no_move = 0.007; % manually entered rough threshold for non-moving cells
 no_polLoc = 0.65; % manually entered rough threshold for non-polar localization
@@ -72,7 +75,7 @@ colour_reps = ["b","g","m","c","r","y"];
 
 if plot_speed
   figure('units','normalized','outerposition',[0 0 1/aspect_data 1])
-  axis([0 nbr_strains+2 0 y_speed])
+  axis([0 nbr_strains+2 0 y_speed_vio])
   hold on
   set(gca, 'XTickLabel',["",Pil_types(1:nbr_strains)], 'Fontsize',15, 'Ticklabelinterpreter', 'none')
   xticks([0:1:nbr_strains+1])
@@ -131,7 +134,7 @@ if plot_polLoc
   [type_ratio_position] = type_ratio_position_function(type_ratio);
   
   figure('units','normalized','outerposition',[0 0 1/aspect_data 1])
-  axis([0 nbr_strains+2 0 y_polLoc])
+  axis([0 nbr_strains+2 0 y_polLoc_vio])
   hold on
   set(gca, 'XTickLabel',["",Pil_types(1:nbr_strains)], 'Fontsize',15, 'Ticklabelinterpreter', 'none')
   xticks([0:1:nbr_strains+1])
@@ -189,7 +192,7 @@ if two_ch
     [type_ratio_position] = type_ratio_position_function(type_ratio);
 
     figure('units','normalized','outerposition',[0 0 1/aspect_data 1])
-    axis([0 nbr_strains+2 0 y_polLoc])
+    axis([0 nbr_strains+2 0 y_polLoc_vio])
     hold on
     set(gca, 'XTickLabel',["",Pil_types(1:nbr_strains)], 'Fontsize',15, 'Ticklabelinterpreter', 'none')
     xticks([0:1:nbr_strains+1])
@@ -246,13 +249,10 @@ end
 if plot_polLoc_speed
   [type_ratio_position] = type_ratio_position_function(type_ratio);
   
-  y_speed = 0.5;
-  y_polLoc = 2.5;
-
   for strain = 1:1:nbr_strains
     
     figure('units','normalized','outerposition',[0 0 1 1])
-    axis([0 y_speed 0 y_polLoc])
+    axis([0 y_speed_st 0 y_polLoc_st])
     hold on
     ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch1,")"))
     xlabel("Speed (µm/s)")
@@ -279,10 +279,10 @@ if plot_polLoc_speed
       plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
     end
       
-    plot([0 y_speed],[no_polLoc no_polLoc],'k --','Linewidth',1)
-    text(y_speed-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+    plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+    text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
     
-    plot([no_move no_move],[0 y_polLoc],'k --','Linewidth',1)
+    plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
     text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
     
     title(strcat("Polar Loc vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
@@ -304,7 +304,7 @@ if two_ch
     for strain = 1:1:nbr_strains
 
       figure('units','normalized','outerposition',[0 0 1 1])
-      axis([0 y_speed 0 y_polLoc])
+      axis([0 y_speed_st 0 y_polLoc_st])
       hold on
       ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch2,")"))
       xlabel("Speed (µm/s)")
@@ -331,10 +331,10 @@ if two_ch
         plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_speed],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_speed-0.001,no_polLoc+0.04,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      text(y_speed_st-0.001,no_polLoc+0.04,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
-      plot([no_move no_move],[0 y_polLoc],'k --','Linewidth',1)
+      plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
 
       title(strcat("Polar Loc vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
@@ -355,9 +355,10 @@ if two_ch
     [type_ratio_position] = type_ratio_position_function(type_ratio);
 
     for strain = 1:1:nbr_strains
-
+    
+      % Plot with same or replicate color
       figure('units','normalized','outerposition',[0 0 1 1])
-      axis([0 y_polLoc 0 y_polLoc])
+      axis([0 y_polLoc_st 0 y_polLoc_st])
       hold on
       ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch1,")"))
       xlabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch2,")"))
@@ -384,10 +385,10 @@ if two_ch
         plot(polLocs_ch2,polLocs_ch1,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_polLoc],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_polLoc-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      plot([0 y_polLoc_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      text(y_polLoc_st-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
       
-      plot([no_polLoc no_polLoc],[0 y_polLoc],'k --','Linewidth',1)
+      plot([no_polLoc no_polLoc],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_polLoc+0.015,0.02,"rough localization threshold FimW",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
 
       title(strcat("Polar Loc ",ch1," vs ",ch2," after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
@@ -398,14 +399,60 @@ if two_ch
         saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
         saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
       end
+      
+      
+      % plot with color according to speed value
+      figure('units','normalized','outerposition',[0 0 1 1])
+      axis([0 y_polLoc_st 0 y_polLoc_st])
+      hold on
+      ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch1,")"))
+      xlabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch2,")"))
+
+      type=Pil_types(strain);
+      index_type=find([polar_loc_speed_motile_results_ch2{:,1}]==type);
+      nbr_replicates = size(index_type,2);
+
+      cmap = jet(256);
+      speeds = polar_loc_speed_motile_concat{strain, 3};
+      v = rescale(speeds, 1, 256); % Rescale values to fit colormap
+      numValues = length(speeds);
+      markerColors = zeros(numValues, 3);
+      % Assign marker colors according to the cell speed
+      for k = 1 : numValues
+          row = round(v(k));
+          markerColors(k, :) = cmap(row, :);
+      end
+      
+      polLocs_ch1 = polar_loc_speed_motile_concat{strain, type_ratio_position(2)};
+      polLocs_ch2 = polar_loc_speed_motile_concat_ch2{strain, type_ratio_position(2)};
+      
+      scatter(polLocs_ch2,polLocs_ch1,25,markerColors,'o','filled','MarkerFaceAlpha',0.75)
+      
+      colorTicks = round(linspace(0,max(speeds),11),3);
+      colormap(cmap)
+      cb = colorbar('TickLabels',colorTicks);
+      cb.Label.String = "Speed (µm/s)";
+      
+      plot([0 y_polLoc_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      text(y_polLoc_st-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      
+      plot([no_polLoc no_polLoc],[0 y_polLoc_st],'k --','Linewidth',1)
+      text(no_polLoc+0.015,0.02,"rough localization threshold FimW",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
+
+      title(strcat("Polar Loc ",ch1," vs ",ch2," after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
+
+      graph_type = strcat('polLoc_ch1ch2',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio);
+      if save_graphs
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+      end
+      
     end  
   end
 end
 
 %% Select channel 1 polar subpopulation and plot polar to cyto ratio channel 1 (typically mNG) [not really required]
-
-% y_speed = 0.5;
-% y_polLoc = 2.5;
 % 
 % if plot_polLoc_speed_ch1polar
 %   [type_ratio_position] = type_ratio_position_function(type_ratio);
@@ -425,7 +472,7 @@ end
 %     
 %     % plot graph for polar subpopulation
 %     figure('units','normalized','outerposition',[0 0 1 1])
-%     axis([0 y_speed 0 y_polLoc])
+%     axis([0 y_speed_st 0 y_polLoc_st])
 %     hold on
 %     ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch1,")"))
 %     xlabel("Speed (µm/s)")
@@ -449,10 +496,10 @@ end
 %       plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
 %     end
 %       
-%     plot([0 y_speed],[no_polLoc no_polLoc],'k --','Linewidth',1)
-%     text(y_speed-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+%     plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+%     text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 %     
-%     plot([no_move no_move],[0 y_polLoc],'k --','Linewidth',1)
+%     plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
 %     text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
 %     
 %     title(strcat("|Ch1 polar subpop| Polar Loc vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
@@ -467,7 +514,7 @@ end
 %     
 %     % plot graph for non-polar subpopulation
 %     figure('units','normalized','outerposition',[0 0 1 1])
-%     axis([0 y_speed 0 y_polLoc])
+%     axis([0 y_speed_st 0 y_polLoc_st])
 %     hold on
 %     ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch1,")"))
 %     xlabel("Speed (µm/s)")
@@ -491,10 +538,10 @@ end
 %       plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
 %     end
 %       
-%     plot([0 y_speed],[no_polLoc no_polLoc],'k --','Linewidth',1)
-%     text(y_speed-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+%     plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+%     text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 %     
-%     plot([no_move no_move],[0 y_polLoc],'k --','Linewidth',1)
+%     plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
 %     text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
 %     
 %     title(strcat("|Ch1 non-polar subpop| Polar Loc vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
@@ -509,9 +556,6 @@ end
 % end
 
 %% Select channel 1 polar subpopulation and plot polar to cyto ratio channel 2 (typically mNG)
-
-y_speed = 0.5;
-y_polLoc = 2.5;
 
 if two_ch
   if plot_polLoc_speed_ch1polar
@@ -532,7 +576,7 @@ if two_ch
 
       % plot graph for polar subpopulation
       figure('units','normalized','outerposition',[0 0 1 1])
-      axis([0 y_speed 0 y_polLoc])
+      axis([0 y_speed_st 0 y_polLoc_st])
       hold on
       ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch2,")"))
       xlabel("Speed (µm/s)")
@@ -555,10 +599,10 @@ if two_ch
         plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_speed],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_speed-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
-      plot([no_move no_move],[0 y_polLoc],'k --','Linewidth',1)
+      plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
 
       title(strcat("|Ch1 polar subpop| Polar Loc vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat_ch2{strain,7})," tracks)"),'Interpreter','none');
@@ -573,7 +617,7 @@ if two_ch
 
       % plot graph for channel 1 non-polar subpopulation
       figure('units','normalized','outerposition',[0 0 1 1])
-      axis([0 y_speed 0 y_polLoc])
+      axis([0 y_speed_st 0 y_polLoc_st])
       hold on
       ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch2,")"))
       xlabel("Speed (µm/s)")
@@ -596,10 +640,10 @@ if two_ch
         plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_speed],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_speed-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
-      plot([no_move no_move],[0 y_polLoc],'k --','Linewidth',1)
+      plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
 
       title(strcat("|Ch1 non-polar subpop| Polar Loc vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat_ch2{strain,7})," tracks)"),'Interpreter','none');
@@ -622,7 +666,7 @@ if two_ch
     
 
     figure('units','normalized','outerposition',[0 0 1/aspect_data 1])
-    axis([0 (nbr_strains*2)+1 0 y_polLoc])
+    axis([0 (nbr_strains*2)+1 0 y_polLoc_vio])
     hold on    
     ylabel(strcat("Ratio pole / cytoplasm (",type_ratio,", ",ch2,")"))
 
