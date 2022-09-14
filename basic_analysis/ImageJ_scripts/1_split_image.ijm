@@ -10,17 +10,17 @@
 index_int=2; // normally 2, for divided images 4
 index_time=3; // normally 3, for divided images 5
 
-number=newArray("1634"); 
-Pil_type=newArray("Test_1634_reg"); 
+number=newArray("000","001","002"); 
+Pil_type=newArray("WT","cpdA-","cpdA- fimX-"); 
 
-same_date = 0; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
+same_date = 1; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20220726 Still and Twitch 883 1631 1634 1635 1638"); // per number use / instead of \
-date=newArray("20220726"); // per number
+folder_name=newArray("20220826 Mayas data Jenal lab Twitching"); // per number use / instead of \
+date=newArray("20220826"); // per number
 
 match=".*2h37_5s.*" // what to look for in file name
 dir_save="G:/Marco/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
-only_PC=0 // 1 if YES, 0 if NO
+only_PC=1 // 1 if YES, 0 if NO
 correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
 
 reg_file_loc = "C:/Users/mkuehn/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
@@ -100,7 +100,7 @@ for(s=0; s<lengthOf(number);s++){
 			saveAs("Tiff", C0_data);
 			run("Image Sequence... ", "format=TIFF name=C0-data_t digits=3 save=["+new_directory+"]");
 			close();
-			}
+			
 			
 		// STEP 6 : save fluorescent channel al C1-data
 			selectWindow("C2-data"+".tif");
@@ -113,12 +113,13 @@ for(s=0; s<lengthOf(number);s++){
 			run("Yellow");
 			saveAs("Tiff", C1_data);
 			close();
+			}
 				
 			
 			if(only_PC) {	
 		// STEP 6 : save phase contract channel al C0-data + save each time frae separately (for BackStalk)
 			if(correct_drift){
-				stack_name_ref = "C1-data"+".tif";
+				stack_name_ref = list[i];
 				run("MultiStackReg", "stack_1="+stack_name_ref+" action_1=Align file_1=["+reg_file_loc+"] stack_2=None action_2=Ignore file_2=[] transformation=Translation save");
 			}
 			C0_data=new_directory+"/C0-data.tif";
