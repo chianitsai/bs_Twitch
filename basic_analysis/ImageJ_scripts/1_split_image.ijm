@@ -119,9 +119,8 @@ for(s=0; s<lengthOf(number);s++){
 			if(only_PC) {	
 		// STEP 6 : save phase contract channel al C0-data + save each time frae separately (for BackStalk)
 			if(correct_drift){
-				stack_name_ref = list[i];
-				run("MultiStackReg", "stack_1="+stack_name_ref+" action_1=Align file_1=["+reg_file_loc+"] stack_2=None action_2=Ignore file_2=[] transformation=Translation save");
-			}
+				run("StackReg ", "transformation=Translation");
+				}
 			C0_data=new_directory+"/C0-data.tif";
 			saveAs("Tiff", C0_data);
 			run("Image Sequence... ", "format=TIFF name=C0-data_t digits=3 save=["+new_directory+"]");
