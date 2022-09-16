@@ -12,14 +12,14 @@ title_graph="Time on surface = 2h"; %    Min limit time=2   Reversal time=5';
 y_revs = 55;
 y_ratio = 1;
 aspect = 3; % divides the figure width (normally screen width) by given number
-plot_CI95 = 1; 
+plot_CI95 = 0; 
     plot_bs = 0; % decide if plotting "normal" CI95 or bootstrap CI95
-plot_stdev = 1; 
+plot_stdev = 0; 
 plot_num_tracks = 1;
 
 more_than_SIX_replicates = 0; % if more than 6 replicates the colours are all black, if not set to 1 produces error
 
-only_plot = 1; % if 0 reads, analyses and saves before plotting
+only_plot = 0; % if 0 reads, analyses and saves before plotting
 
 %% Run save function
 addpath('functions');
@@ -27,7 +27,7 @@ if ~only_plot
     [data_dir_name, data_name] = save_reversals_phase_contrast(save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\reversals_phase_contrast\mat_files\';
-    data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_reversals_phase_contrast'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -71,17 +71,17 @@ for strain = 1:1:nbr_strains
         mean_pile=[mean_pile,(r+j)/t];
         
     end
-    
     N = size(mean_pile,2);
-    avg = mean(mean_pile);                                                  % calculate mean of the reversal rates
-    SEM = std(mean_pile)/sqrt(N);                                           % calculate standard error of the reversal rates
-    stdD = std(mean_pile);
-    CI95_base = tinv([0.025 0.975], N-1);                                   % Calculate 95% Probability Intervals Of t-Distribution
-    CI95 = bsxfun(@times, SEM, CI95_base(:));                               % Calculate 95% Confidence Intervals Of All Experiments At Each Value Of ‘x’
-    CIbs = bootci(50,{@mean,mean_pile},'Alpha',0.01);                        % Calculate bullsh ... I mean bootstrap 95% confidence interval, not sure what @mean does exactly
-    
+    avg = mean(mean_pile);                                                  % calculate mean of the reversal rates        
     plot([strain-0.1 strain+0.1],[avg avg],'k-','Linewidth',2)
+    
     if plot_CI95
+        SEM = std(mean_pile)/sqrt(N);                                           % calculate standard error of the reversal rates
+        stdD = std(mean_pile);
+        CI95_base = tinv([0.025 0.975], N-1);                                   % Calculate 95% Probability Intervals Of t-Distribution
+        CI95 = bsxfun(@times, SEM, CI95_base(:));                               % Calculate 95% Confidence Intervals Of All Experiments At Each Value Of ‘x’
+        CIbs = bootci(50,{@mean,mean_pile},'Alpha',0.01);                        % Calculate bullsh ... I mean bootstrap 95% confidence interval, not sure what @mean does exactly
+            
         if plot_bs
             plot([strain+0.12 strain+0.12], [CIbs(1) CIbs(2)],'k-','Linewidth',1)
             text(strain+0.2, avg,'bs 99% CI','Rotation', 90,'HorizontalAlignment','center')

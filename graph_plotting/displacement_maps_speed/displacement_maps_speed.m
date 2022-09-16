@@ -44,8 +44,8 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 tos = "2h";
 IntervalTime = 5; % in sec
 
-min_tracked = 15; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
-max_tracked = 25; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
+min_tracked = 10; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
+max_tracked = 20; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
 
 desired_tracks = 50; % maximum number of tracks to plot. if less tracks in real_displacement_results, takes max available
 
@@ -55,10 +55,10 @@ plot_violin = 1;
 plot_histograms = 0;
 plot_maps = 1;
 
-y_speed = 0.3;  % y-axis of speed plots
+y_speed = 0.5;  % y-axis of speed plots
 scaling_violin = 0.05; % scaling width of violin plots
 
-xLo = -20; xHi = 40; yLo = 0; yHi = 100; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
+xLo = -10; xHi = 20; yLo = 0; yHi = 70; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
 
 aspect_maps = 1; % 1/aspect_maps = width of the displacement maps
 aspect_speed = 2; % 1/aspect_speed = width of the speed plot

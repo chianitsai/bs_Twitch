@@ -35,9 +35,6 @@ function [save_dir_name, save_name] = save_reversals_phase_contrast(save_dir)
             % iii) column3: RMSD of moving NOT reversing cells
     
 
-clear all
-close all
-
 dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
