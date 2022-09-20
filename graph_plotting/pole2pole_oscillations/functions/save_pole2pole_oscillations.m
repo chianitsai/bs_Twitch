@@ -6,7 +6,7 @@ dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 save_dir = strcat(save_dir,'mat_files\');
 
 %% load functions
-% addpath(strcat(dir_func,'Functions')); 
+addpath(strcat(dir_func,'Functions')); 
 
 %% laod input
 
