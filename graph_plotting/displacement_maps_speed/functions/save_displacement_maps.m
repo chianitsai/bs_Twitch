@@ -1,4 +1,4 @@
-function [save_dir_name, save_name] = save_displacement_maps()
+function [save_dir_name, save_name] = save_displacement_maps(save_dir)
 
 %% Saves the file real_displacement_results.mat
     % wich are the displacements corrected for the twitching direction of
@@ -20,7 +20,7 @@ function [save_dir_name, save_name] = save_displacement_maps()
 dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\displacement_maps_speed\mat_files\';
+save_dir = strcat(save_dir,'mat_files\');
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
 [num,txt,~]=xlsread(strcat(dir_data_input,'Data_Input_Graph_Plotting.xlsx')); % must be located in 'dir_data_input'

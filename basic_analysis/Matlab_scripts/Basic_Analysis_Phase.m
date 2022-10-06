@@ -65,7 +65,7 @@ for d=1:1:size(dates,1)
         end
         %% Step 4: Study video
         [BactID,cell_prop,Data_speed...
-          ,BactID_non_moving,cell_prop_non_moving,Data_speed_non_moving]=study_single_video_phase_contrast(adresse,speed_limit,1);
+          ,BactID_non_moving,cell_prop_non_moving,Data_speed_non_moving]=study_BacStalk_Phase(adresse,speed_limit,1);
         nbr_bact=size(BactID,1);
         %% Step 5: save all variables
         if do_SaveVariables

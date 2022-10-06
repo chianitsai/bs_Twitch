@@ -1,12 +1,12 @@
-function [save_dir_name, save_name] = save_pole2pole_oscillations(combined,move,filtered)
+function [save_dir_name, save_name] = save_pole2pole_oscillations(combined,move,filtered,save_dir)
 
 dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole2pole_oscillations\mat_files\';
+save_dir = strcat(save_dir,'mat_files\');
 
 %% load functions
-% addpath(strcat(dir_func,'Functions')); 
+addpath(strcat(dir_func,'Functions')); 
 
 %% laod input
 

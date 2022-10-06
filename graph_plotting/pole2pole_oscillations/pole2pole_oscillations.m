@@ -1,5 +1,10 @@
 close all
 clear all
+
+%% Pre-run Settings
+dir_func='C:\Users\mkuehn\git\bs_Twitch\';
+save_dir = 'G:\Marco\bs_Twitch_results\pole2pole_oscillations\';
+
 %% Enter dreams, desires and wishes
 
 combined = 1;    move = 0; % both 0 for non-moving
@@ -21,18 +26,14 @@ plot_freqcellmean = 0;
 %% Run save function
 addpath('functions');
 if ~only_plot
-    [data_dir_name, data_name] = save_pole2pole_oscillations(combined,move,filtered);
+    [data_dir_name, data_name] = save_pole2pole_oscillations(combined,move,filtered,save_dir);
 else
     data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole2pole_oscillations\mat_files\';
     data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
-%% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole2pole_oscillations\';
 save_name = regexprep(data_name, '_pole2pole_oscillations','_');
-
 load(data_dir_name) % loads analysis file that was done with function "save_displacement_maps.m"
 
 Pil_types_unique = unique(pole2pole_data(:,1));

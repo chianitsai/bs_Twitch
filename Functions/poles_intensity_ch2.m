@@ -1,7 +1,7 @@
-function [int_pole_mean,ratio_poles, int_max, int_poles_total] = poles_intensity(adresse,poles,Bact_info,t,delta_x)
+function [int_pole_mean,ratio_poles, int_max, int_poles_total] = poles_intensity_ch2(adresse,poles,Bact_info,t,delta_x)
 t=Bact_info{t,1};
 
-imageData_fluo = imread(strcat(adresse,'\C1-data.tif'),t);
+imageData_fluo = imread(strcat(adresse,'\C2-data.tif'),t);
 
 [xDim,yDim]=size(imageData_fluo);
 int_pole_mean=zeros(1,size(poles,1));
