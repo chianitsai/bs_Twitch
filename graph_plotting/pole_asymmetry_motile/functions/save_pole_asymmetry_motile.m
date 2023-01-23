@@ -13,7 +13,7 @@ addpath(strcat(dir_func,'Functions'));
 %% laod input
 [num,txt,~]=xlsread(strcat(dir_data_input,'Data_Input_Graph_Plotting.xlsx')); % must be located in 'dir_data_input'
 dates_all = num2cell(num(:,1)); % read as a column vector
-dates_unique = unique(num(:,1));
+dates_unique = unique(num(:,1)');
 Pil_types = txt(:,1); % read as a cell with one column
 Pil_types_unique = unique(txt(:,1));
 intervals_all = txt(:,3); % read as a cell with one column
@@ -38,7 +38,10 @@ end
 
 %% save data:
 Pil_nums_unique = unique(Pil_nums);
-save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_pole_asymmetry_motile');
+if length(dates_unique)>10
+    dates_unique = 'too_many_dates';
+end
+save_name = strcat(regexprep(num2str(dates_unique),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_pole_asymmetry_motile');
 save_dir_name = strcat(save_dir,save_name);
 
 save(save_dir_name,'moving_distribution','non_moving_distribution');

@@ -11,11 +11,13 @@ combined = 1;    move = 0; % both 0 for non-moving
 filtered = 0; % filters out pole2pole switches that occur in subsequent frames, i.e. that last just one frame
 
 time_early = "10min"; %"10min"; % has to match the "early" interval
-time_late = "60min"; %"60min"; % has to match the "late" interval
+time_late = "70min"; %"60min"; % has to match the "late" interval
 
-y_ax = 1; % sets the y axis
+y_ax_hist = 1; % sets the y axis of the histrograms
+y_ax_freq = 4; % sets the y axis of the total frequency plot and per cell frequency plot
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
+do_save = 0; % if 0, doesn't save the graphs
 
 % decide which plots to plot and save
 plot_histograms = 1;
@@ -28,7 +30,7 @@ addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_pole2pole_oscillations(combined,move,filtered,save_dir);
 else
-    data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole2pole_oscillations\mat_files\';
+    data_dir = 'G:\Marco\bs_Twitch_results\pole2pole_oscillations\mat_files\';
     data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
@@ -83,7 +85,7 @@ if plot_histograms
         subplot(2,nbr_PTU,off)
 
         bar(normalizedN,colour(type))
-        axis([0 bin_size 0 y_ax])
+        axis([0 bin_size 0 y_ax_hist])
         title(strcat(Pil_type_number," | ", time_early), 'Interpreter', 'none')
         set(gca, 'XTickLabel',["",[bin_labels{1:end}]], 'Fontsize',10)
         xticks([0:bin_size])
@@ -98,7 +100,7 @@ if plot_histograms
         subplot(2,nbr_PTU,off+nbr_PTU)
 
         bar(normalizedN,colour(type))
-        axis([0 bin_size 0 y_ax])
+        axis([0 bin_size 0 y_ax_hist])
         title(strcat(Pil_type_number," | ", time_late), 'Interpreter', 'none')
         set(gca, 'XTickLabel',["",[bin_labels{1:end}]], 'Fontsize',10)
         xticks([0:bin_size])
@@ -106,10 +108,12 @@ if plot_histograms
         xlabel("Number of bright pole switches per min (individual cell tracks, unfiltered, normalized)")
         ylabel("Probability")     
     end
-    graph_type = 'pole2pole_osc_hist';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if do_save
+        graph_type = 'pole2pole_osc_hist';
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end
 
 % plot only fraction of cells with oscillations
@@ -160,10 +164,12 @@ if plot_fracosc
     xtickangle(45)
     ylabel("Fraction of cells with bright pole switches (%)")
     
-    graph_type = 'pole2pole_osc_frac';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if do_save
+        graph_type = 'pole2pole_osc_frac';
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end
 
 %% plot average oscillation frequency per min (over all cell tracks)
@@ -173,8 +179,8 @@ if plot_freqtot
     xlabels = [];
     pos = 0;
     colour = ["b","g","r","k","c","m"];
-    % marker = [" o"," s"," x"," +"," *"," v","d","h"];
-    marker = [" o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"];
+    marker = [" o"," s"," x"," +"," *"," v","d","h"];
+%     marker = [" o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"," o"];
     for type=1:1:nbr_PTU
         Pil_type = Pil_types_unique{type};
         Pil_type_number = extractBefore(Pil_type,find(isstrprop(Pil_type,'digit')==0,1));
@@ -209,16 +215,18 @@ if plot_freqtot
         end
     end
 
-    axis([0 pos+1 0 3.5])
+    axis([0 pos+1 0 y_ax_freq])
     set(gca, 'XTickLabel',["";xlabels;""], 'Fontsize',10, 'TickLabelInterpreter','none')
     xticks([0:pos+1])
     xtickangle(45)
     ylabel("Frequency bright pole switches (1/min) [all switches/all time tracked]")
     
-    graph_type = 'pole2pole_osc_freqtot';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if do_save
+        graph_type = 'pole2pole_osc_freqtot';
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end
 
 %% plot average oscillation frequency per min (Mean for each cell track)
@@ -264,14 +272,16 @@ if plot_freqcellmean
         end
     end
 
-    axis([0 pos+1 0 3.5])
+    axis([0 pos+1 0 y_ax_freq])
     set(gca, 'XTickLabel',["";xlabels;""], 'Fontsize',10, 'TickLabelInterpreter','none')
     xticks([0:pos+1])
     xtickangle(45)
     ylabel("Frequency bright pole switches (1/min) [Mean per cell track]")
     
-    graph_type = 'pole2pole_osc_freqcellmean';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if do_save
+        graph_type = 'pole2pole_osc_freqcellmean';
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end

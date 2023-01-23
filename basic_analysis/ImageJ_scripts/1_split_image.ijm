@@ -8,19 +8,19 @@
 // TO MODIFY:
 
 index_int=2; // normally 2, for divided images 4
-index_time=3; // normally 3, for divided images 5
+index_time=4; // normally 3, for divided images 5
 
-number=newArray("000","001","002"); 
-Pil_type=newArray("WT","cpdA-","cpdA- fimX-"); 
+number=newArray("923","1023","1060","1604"); 
+Pil_type=newArray("fliC- mNG_PilG","fliC- mNG_PilG PilH_D52A","fliC- mNG_PilG pilA-","fliC- mNG_PilG pilA-2"); 
 
 same_date = 1; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20220826 Mayas data Jenal lab Twitching"); // per number use / instead of \
-date=newArray("20220826"); // per number
+folder_name=newArray("20220928 Oscillations 923 1023 1060 1604"); // per number use / instead of \
+date=newArray("20220928"); // per number
 
-match=".*2h37_5s.*" // what to look for in file name
+match=".*min.*" // what to look for in file name
 dir_save="G:/Marco/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
-only_PC=1 // 1 if YES, 0 if NO
+only_PC=0 // 1 if YES, 0 if NO
 correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
 
 reg_file_loc = "C:/Users/mkuehn/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist

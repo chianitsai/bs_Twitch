@@ -15,7 +15,7 @@
         % 5: median of column 5 of cell in column 3
 
 % only works if all listed strains were analysed with the save_real_displacement_MJK.m script
-% !!! only works with 3 repslicates max !!!
+% !!! only works with 3 replicates max !!!
 
 clear all
 close all
@@ -24,15 +24,16 @@ close all
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 save_dir = 'G:\Marco\bs_Twitch_results\displacement_maps_speed\';
 
-only_plot = 0; % if 0 reads, analyses and saves before plotting
+only_plot = 1; % if 0 reads, analyses and saves before plotting
+save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
 %% Run save function
 addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_displacement_maps(save_dir);
 else
-    data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\displacement_maps_speed\mat_files\';
-    data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_dir = strcat(save_dir,'mat_files\');
+    data_name = 'too_many_dates_Strains_177_ 337_1143_1144_1185_1186_1277_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -44,21 +45,21 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 tos = "2h";
 IntervalTime = 5; % in sec
 
-min_tracked = 10; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
-max_tracked = 20; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
+min_tracked = 31; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
+max_tracked = 62; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
 
 desired_tracks = 50; % maximum number of tracks to plot. if less tracks in real_displacement_results, takes max available
 
-plot_speed_cut = 1; % Note, plots speed of tracked-frame-thresholded tracks!
+plot_speed_cut = 0; % Note, plots speed of tracked-frame-thresholded tracks!
 plot_speed_all = 1; % Note, plots speed of all cells
 plot_violin = 1;
 plot_histograms = 0;
-plot_maps = 1;
+plot_maps = 0; % !!! only works with maximum 3, in words THREE, replicates !!!
 
 y_speed = 0.5;  % y-axis of speed plots
-scaling_violin = 0.05; % scaling width of violin plots
+scaling_violin = 0.075; % scaling width of violin plots
 
-xLo = -10; xHi = 20; yLo = 0; yHi = 70; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
+xLo = -20; xHi = 40; yLo = 0; yHi = 150; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
 
 aspect_maps = 1; % 1/aspect_maps = width of the displacement maps
 aspect_speed = 2; % 1/aspect_speed = width of the speed plot
@@ -180,9 +181,11 @@ if plot_speed_all
     title("All tracks, no length limit");
     
     graph_type = 'speed_all';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if save_graphs
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end
 
 %% Process data for filterd tracks (filter for track time length, normaize by speed, ...)
@@ -307,9 +310,11 @@ if plot_speed_cut
     title(strcat("Filtered tracks, minimum length: ", num2str(min_tracked), " frames"));
     
     graph_type = 'speed_cut';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if save_graphs
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end
 
 %% Plot displacements
@@ -598,7 +603,9 @@ if plot_maps
     xlabel('Displacement (µm)')
     
     graph_type = 'displacement_maps';
-    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    if save_graphs
+        saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    end
 end

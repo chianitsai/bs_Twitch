@@ -10,6 +10,7 @@ save_dir = 'G:\Marco\bs_Twitch_results\alignment_motile\';
 
 %% Modify
 only_plot = 0; % if 0 reads, analyses and saves before plotting
+save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
 aspect = 1/3; % width of the graph
 
@@ -31,9 +32,9 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 
 %% Strains % Could still be done in a more elegant way!
 strain_1 = 1;
-strain_2 = 0;
-strain_3 = 0;
-strain_4 = 0;
+strain_2 = 1;
+strain_3 = 1;
+strain_4 = 1;
 strain_5 = 0;
 
 do_strain=[strain_1,strain_2,strain_3,strain_4,strain_5]; 
@@ -72,9 +73,11 @@ xticks([0:1:nbr_collumn+1])
 xtickangle(15)
 
 graph_type = 'alignment_motile';
-saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+if save_graphs
+    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+end
 
 %% Histogram of all Alignment factors
 

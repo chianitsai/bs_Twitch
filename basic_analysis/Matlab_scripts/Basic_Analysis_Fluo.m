@@ -26,6 +26,10 @@ mean_cell_size='8'; %in pixel
 min_cell_size='6'; %in pixel
 search_radius='20'; %in pixel
 dilation_width='0.5'; %in pixel
+% typicall numbers [mean_cell_size min_cell_size search_radius dilation_width]
+% widefield [8 6 20 0.5]
+% TIRF [5 5 15 0.5]
+% Jenal Mic [16 12 20 0.5]
 
 % speed limit (in pixel per frame, typically use 1, note: changes according to frame interval) 
 speed_limit=0;  % if set to 0 disables speed limit ("non_moving" cells will be empty) and not all downstream analysis scripts will work because some need a non-moving fraction

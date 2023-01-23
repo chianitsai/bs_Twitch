@@ -1,7 +1,6 @@
 // @File(Label="Select data path", style="directory") choose_1
-// @File(Label="Select data path", style="directory") choose_2
-// @File(Label="Select data path", style="directory") choose_3
-// @File(Label="Select data path", style="directory") choose_4
+
+
 
 // delete or add above lines as required
 // opens all movie folders in selected directory
@@ -11,7 +10,7 @@ print("\\Clear");
 
 do_non_moving = 0;
 
-addition = "_noSL"; // addition to the filename "C_with_trajectory+addition+_1.tif", eg "_noSL". If no addition leave empty: ""
+addition = ""; // addition to the filename "C_with_trajectory+addition+_1.tif", eg "_noSL". If no addition leave empty: ""
 
 dir=choose_1;
 print(dir);
@@ -33,7 +32,7 @@ for(j=0; j<file.length; j++) {
 
 print("Done with "+dir);
 
-
+/*
 dir=choose_2;
 print(dir);
 
@@ -97,7 +96,7 @@ for(j=0; j<file.length; j++) {
 print("Done with "+dir);
 
 
-/*
+
 dir=choose_5;
 print(dir);
 
@@ -119,7 +118,7 @@ for(j=0; j<file.length; j++) {
 print("Done with "+dir);
 
 
-
+/*
 dir=choose_6;
 print(dir);
 

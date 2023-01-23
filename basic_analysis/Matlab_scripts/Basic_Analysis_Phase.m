@@ -22,9 +22,9 @@ do_nonmoving = 0; % 1 if YES 0 if NO: makes movie of non-moving cells - just to 
 do_fluopoles = 0; % Has to be 0 here allways. No fluo in phase contrast!!!
 
 %for Backstalk:
-mean_cell_size='8'; %in pixel
-min_cell_size='6'; %in pixel
-search_radius='20'; %in pixel
+mean_cell_size='14'; %in pixel
+min_cell_size='8'; %in pixel
+search_radius='40'; %in pixel
 dilation_width='0.5'; %in pixel
 
 speed_limit=1; % to change according to how well the cells are moving
@@ -64,20 +64,25 @@ for d=1:1:size(dates,1)
           BacStalk_automated(adresse,time,mean_cell_size,min_cell_size,num2str(delta_x),search_radius,dilation_width)%directory,Pil_type,date,interval,Pil_nbr);
         end
         %% Step 4: Study video
+        [speed_filter]=check_speed(speed_limit);
         [BactID,cell_prop,Data_speed...
           ,BactID_non_moving,cell_prop_non_moving,Data_speed_non_moving]=study_BacStalk_Phase(adresse,speed_limit,1);
         nbr_bact=size(BactID,1);
         %% Step 5: save all variables
-        if do_SaveVariables
+        if ~speed_filter
+            filename=strcat(adresse,'\variables_noSL.mat');
+        else
             filename=strcat(adresse,'\variables.mat');
+        end
+        if do_SaveVariables
             save(filename)
         end
         %% step 6: create images for video 
         if do_video
-            if do_nonmoving
-                create_image_for_video(adresse,time,do_fluopoles,cell_prop_non_moving,0);
+            create_image_for_video(adresse,time,do_fluopoles,cell_prop,1,speed_filter); % if fluo+poles desired, go to function and uncomment lines 10-31 (subj to change)
+            if do_nonmoving & speed_filter
+                create_image_for_video(adresse,time,do_fluopoles,cell_prop_non_moving,0,speed_filter);
             end
-            create_image_for_video(adresse,time,do_fluopoles,cell_prop,1);
         end
         %% step FINAL: remove path
         rmpath(adresse)
