@@ -21,10 +21,11 @@ dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 save_dir = strcat(save_dir,'mat_files\');
+addpath(strcat(dir_func,'Functions'));
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
 [num,txt,~]=xlsread(strcat(dir_data_input,'Data_Input_Graph_Plotting.xlsx')); % must be located in 'dir_data_input'
-dates = num(:,1); % read as a column vector
+dates = num(:,1)'; % read as a column vector
 dates_unique = unique(dates);
 Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
@@ -41,14 +42,14 @@ for type=1:1:size(Pil_types,1)
     interval=convertCharsToStrings(intervals{type})
     
     adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
-    num_folder=length(dir(adresse_data))-2;
+%     num_folder=length(dir(adresse_data))-2;
+    [num_folder] = correct_folder_number(adresse_data);
 
   %% Loop over all folders
 
   disp_all_comb = [];
   for folder=1:1:num_folder
     %% Load variables and add path
-    addpath(strcat(dir_func,'Functions'));
     adresse=strcat(adresse_data,num2str(folder))
     addpath(adresse)
     load(strcat(adresse,'\variables.mat'),'cell_prop','BactID','Data_speed')
@@ -168,7 +169,10 @@ for type=1:1:size(Pil_types,1)
 end
 
 Pil_nums_unique = unique(Pil_nums);
-save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_displacement_maps_speed');
+if length(dates_unique)>10
+    dates_unique = 'too_many_dates';
+end
+save_name = strcat(regexprep(num2str(dates_unique),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_displacement_maps_speed');
 save_dir_name = strcat(save_dir,save_name);
 
 save(save_dir_name,'real_displacement_results');

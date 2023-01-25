@@ -7,9 +7,7 @@ close all
 clear all
 
 %% To Modify:
-directory = 'G:\Marco\bs_locprof_data_storage\source_data_figure_S11\ReversalsCollisions\'; 
-% directory = 'G:\Marco\bs_Twitch_data_storage\'; % 'H:\Iscia_WS\PersatLAb-master\'; % Main directory with all Pil_type folders and all
-% Pil_types = {'1046 fliC- mNG_FimX PilH_D52E','1075 fliC- mNG_FimX PilH_D52A','1143 fliC- pilK-','1144 fliC- chpB-','1171 fliC- cpdA- pilG_D58E','1178 fliC- PilA_T8V','1211 fliC- cpdA- pilG_D58A','1245 fliC- mNG_FimX pilK-','1246 fliC- mNG_FimX chpB-','1255 fliC- pilK- + pJN105_mNG_PilK','1277 fliC- pilK- chpB-','1278 fliC- pilG- pilH- cpdA-','177 fliC-','232 fliC- pilH-','337 fliC- cpdA-','459 fliC- cpdA- pilG-','463 fliC- mNG_FimX'}; % name of the folder within directory
+directory = 'G:\Marco\bs_locprof_data_storage\source_data_figure_8\oscillations_data\'; 
 
 cd(directory)
 content_dir = struct2cell(dir);
@@ -93,7 +91,7 @@ PilTypes_cleaned = zeros(1,size(clean_content_dir,2));
                     
                     content_movie = dir(subdir_movie);
                     
-                    %% Step 5: Delete files that match "data_t"
+                    %% Step 5: Delete files
                     
                     num_files = length(content_movie)-2;
                     
@@ -103,10 +101,28 @@ PilTypes_cleaned = zeros(1,size(clean_content_dir,2));
                     
                         file = files{f};
                         
-                        if contains(file,'data_t') & contains (file,'.tif')
+                        if contains(file,'C0-data') & contains (file,'.tif')
                         
                             path_file = strcat(subdir_movie,'\',file);
                             delete(path_file);
+                            
+                            PilTypes_cleaned(t) = 1;
+                                               
+                        end
+                        
+                        if contains(file,'C1-data') & contains (file,'.tif')
+                        
+                            path_file = strcat(subdir_movie,'\',file);
+                            delete(path_file);
+                            
+                            PilTypes_cleaned(t) = 1;
+                                               
+                        end
+                        
+                        if contains(file,'Movie')
+                        
+                            path_folder = strcat(subdir_movie,'\',file);
+                            rmdir(path_folder,'s');
                             
                             PilTypes_cleaned(t) = 1;
                                                

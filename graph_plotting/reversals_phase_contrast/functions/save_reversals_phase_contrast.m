@@ -18,7 +18,8 @@ function [save_dir_name, save_name] = save_reversals_phase_contrast(save_dir)
         %c. column 3: total number of reversals for folder
         %d. column 4: total number of jiggling for folder
         %e. column 5: RMSD
-        %f. column 6: total count of reversals + jiggles
+        %f. column 6: total number cells reversing or jiggling
+        
     %2. reversals_results is a cell of 3 columns, and number of lines depends on the number of strains
         %a. column 1: Mutant type & time
         %b. column 2: matrix of 7 columns containing all info on reversals and jiggling
@@ -26,7 +27,7 @@ function [save_dir_name, save_name] = save_reversals_phase_contrast(save_dir)
             % ii) column 2: total tracking time (in s)
             % iii) column 3: total number of reversals
             % iv) column 4: total number of jiggles
-            % v) columns 5: total number of cell reversing or jiggles
+            % v) columns 5: total number of cells reversing or jiggling
             % iv) column 6: % total number of moving cells
             % vii) column 7: % total number of non moving cells
         %c. column 3: total number of reversals for folder
@@ -39,19 +40,19 @@ dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
 dir_data='G:\Marco\bs_Twitch_data_storage\';
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 save_dir = strcat(save_dir,'mat_files\');
-
+addpath(strcat(dir_func,'Functions'));
 
 %% To modify:
 
-limit_counts=5; % consecutive timepoint threshold to count as reversal or not !!! depends on image time interval
-limit_minimum=2; % consecutive timepoint threshold to count as significant directional change
+limit_counts=5; % consecutive timepoint threshold to count as reversal or not !!! depends on image time interval. "default": 5
+limit_minimum=2; % consecutive timepoint threshold to count as significant directional change. "default": 2
 
 projection_plot=0; % CAREFULL!!! Only use if one folder only! 1 if you want to plot all the projection graph of the reversing/jiggling cells
 
 %% laod input
 [num,txt,~]=xlsread(strcat(dir_data_input,'Data_Input_Graph_Plotting.xlsx')); % must be located in 'dir_data_input'
-dates = num(:,1); % read as a column vector
-dates_unique = unique(num(:,1));
+dates = num(:,1)'; % read as a column vector
+dates_unique = unique(dates);
 Pil_types = txt(:,1); % read as a cell with one column
 Pil_types_unique = unique(txt(:,1));
 intervals = txt(:,3); % read as a cell with one column
@@ -67,7 +68,8 @@ for type=1:1:size(Pil_types,1)
     interval=intervals{type}
     
     adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
-    num_folder=length(dir(adresse_data))-2;
+%     num_folder=length(dir(adresse_data))-2;
+    [num_folder] = correct_folder_number(adresse_data); 
     
     %% define variables
     RMSD_total=[];
@@ -77,7 +79,6 @@ for type=1:1:size(Pil_types,1)
     %% Loop over folders
   for folder=1:1:num_folder
     %% Load variables and add path
-    addpath(strcat(dir_func,'Functions'));
     adresse=strcat(adresse_data,num2str(folder))
     addpath(adresse)
     load(strcat(adresse,'\variables.mat'),'cell_prop','BactID','Data_speed', 'BactID_non_moving')
@@ -148,6 +149,7 @@ for type=1:1:size(Pil_types,1)
         total_counts{i,4}=sum(total_counts{i,2}(:,7));
         total_counts{i,5}=reversal{i,3};
         total_counts{i,6}=(total_counts{i,3}+total_counts{i,4})~=0;
+%         total_counts{i,6}=(total_counts{i,3}+total_counts{i,4});
      end
   %% --------------------PLOT---------------------------------------------------------------------    
         if projection_plot
@@ -206,7 +208,7 @@ for type=1:1:size(Pil_types,1)
     if ~isempty(total_counts)
         reversals_results{m,2}(folder,3)=sum([total_counts{:,3}]);  % total # of reversals of strain
         reversals_results{m,2}(folder,4)=sum([total_counts{:,4}]);  % total # of jiggles of strain
-        reversals_results{m,2}(folder,5)=sum([total_counts{:,6}]);  % total num of cell reversing or jiggles
+        reversals_results{m,2}(folder,5)=sum([total_counts{:,6}]);  % total num of cells reversing or jiggling
         reversals_results{m,2}(folder,6)=size(BactID,1);            % total # of moving cells
         reversals_results{m,2}(folder,7)=size(BactID_non_moving,1); % total # of non moving cells
     else
@@ -220,13 +222,18 @@ for type=1:1:size(Pil_types,1)
     reversals_results{m,3}{folder,1}=folder;
     reversals_results{m,3}{folder,2}=RMSD_reverse; % RMSD of reversing cells
     reversals_results{m,3}{folder,3}=RMSD_no_reverse'; % RMSD of moving and NOT reversing cells
+    reversals_results{m,3}{folder,4}=RMSD_total;
+    reversals_results{m,3}{folder,5}=median(RMSD_total);
 %     rmpath(adresse1)
   end
     rmpath(adresse)
 end
 %% save
 Pil_nums_unique = unique(Pil_nums);
-save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_reversals_phase_contrast');
+if length(dates_unique)>10
+    dates_unique = 'too_many_dates';
+end
+save_name = strcat(regexprep(num2str(dates_unique),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_reversals_phase_contrast');
 save_dir_name = strcat(save_dir,save_name);
 
 save(save_dir_name,'reversals_results');

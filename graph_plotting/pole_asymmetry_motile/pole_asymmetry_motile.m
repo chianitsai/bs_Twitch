@@ -14,6 +14,7 @@ dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 save_dir = 'G:\Marco\bs_Twitch_results\pole_asymmetry_motile\';
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
+save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
 limite_ratio=0.69;
 useMax = 0; % Important: Added the option to use ratio of max pole intenstiy instead of mean. Function get_symm_asymm now requries useMax!
@@ -35,7 +36,7 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 strain_1 = 1;
 strain_2 = 1;
 strain_3 = 1;
-strain_4 = 0;
+strain_4 = 1;
 strain_5 = 0;
 
 do_strain=[strain_1,strain_2,strain_3,strain_4,strain_5]; 
@@ -133,6 +134,8 @@ xticks([1:1:nbr_collumn])
 xtickangle(15)
 
 graph_type = 'asymmetry_motile';
-saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+if save_graphs
+    saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
+    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+end

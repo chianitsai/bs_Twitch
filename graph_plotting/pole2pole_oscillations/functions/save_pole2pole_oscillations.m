@@ -12,7 +12,7 @@ addpath(strcat(dir_func,'Functions'));
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively (see Table "Sample Information"))
 [num,txt,~]=xlsread(strcat(dir_data_input,'Data_Input_Graph_Plotting.xlsx')); % must be located in 'dir_data'
-dates = num(:,1); % read as a column vector
+dates = num(:,1)'; % read as a column vector
 dates_unique = unique(dates);
 Pil_types = txt(:,1); % read as a cell with one column
 Pil_types_unique = unique(txt(:,1));
@@ -36,10 +36,11 @@ for sample = 1:size(intervals,1)
     interval = intervals{sample};
 
     adresse_folder = strcat(dir_data,Pil_type,'\',num2str(date),'\',interval);
-    nbr_folders = length(dir(adresse_folder))-2;
+%     num_folder = length(dir(adresse_folder))-2;
+    [num_folder] = correct_folder_number(adresse_folder);
 
     %% Loop over all folders
-    for folder = 1:nbr_folders
+    for folder = 1:num_folder
         adresse_data=strcat(dir_data,Pil_type,'\',num2str(date),'\',interval,'\',num2str(folder));
         addpath(adresse_data)
         
@@ -147,7 +148,10 @@ end
 
 %% save data 
 Pil_nums_unique = unique(Pil_nums);
-save_name = strcat(regexprep(num2str(dates_unique'),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_pole2pole_oscillations');
+if length(dates_unique)>10
+    dates_unique = 'too_many_dates';
+end
+save_name = strcat(regexprep(num2str(dates_unique),'  ','_'),'_Strains_', regexprep(num2str(Pil_nums_unique),'  ','_'), '_pole2pole_oscillations');
 save_dir_name = strcat(save_dir,save_name);
 
 save(save_dir_name,'pole2pole_data');
