@@ -1,8 +1,6 @@
-% !This code should only be run after BacStalk in done and will not need to
-% be redone anymore!!
-% deletes all single image files that were needed for BacStalk. C0 and C1
-% combined images are not deleted.
-
+% !This code removes all the redundant image sequence copies created by the
+% BacStalk analysis pipeline. This includes the split and duplicated C0 and
+% C1 channels, but also the Movie folders with the track visualizations!
 close all
 clear all
 
