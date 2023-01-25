@@ -1,8 +1,8 @@
 # Content of this repository
 
-The different [**ImageJ**](https://fiji.sc/) and [**MATLAB**](https://ch.mathworks.com/products/matlab.html) scripts in this repository can be used to analyse **twitching behaviour** and **protein localization** of isolated twitching bacteria. Only isolated bacteria are correctly tracked and they must be flat on the microscope glass to ensure the whole cell body is in the same focal plane to measure fluorescent signals correctly along the whole cell. 
+The different [**ImageJ**](https://fiji.sc/) and [**MATLAB**](https://ch.mathworks.com/products/matlab.html) scripts in this repository can be used to analyse **twitching behaviour** and **protein localization** of isolated twitching bacteria. 
 
-* In a basic analysis cells are getting segmented and tracked, and the fluorescence of the polar and cytoplasmic areas is measured for fluorescent images. All of this information is saved in a file see **readMe_variables.docx** in basic_analysis for a detailed list of saved data).
+* In a basic analysis cells are getting segmented and tracked, and the fluorescence of the polar and cytoplasmic areas is measured for fluorescent images. All of this information is saved in a .mat file (see **readMe_variables.docx** in basic_analysis for a detailed list of saved data, may contain typos).
 
 * The information saved in variables.mat contains:
   * information about the cell segmentation
@@ -10,18 +10,18 @@ The different [**ImageJ**](https://fiji.sc/) and [**MATLAB**](https://ch.mathwor
   * cell speed and movement direction
   * fluorecent measurements of cell poles and cytoplasms
   
-* In different downstream analyses graphs are plotted for various measurements. The following scripts are available, they are explained in detail further below:
-  * **reversals_phase_contrast** - measures the rate of direction changes (reversals) of twitching cells
-  * **displacement_maps_speed** - measures cell speed and plots direction-corrected displacement maps
+* In different downstream analyses graphs are plotted for various measurements. The following scripts are available, <s>they are explained in detail in the corresponding folders</s>:
+  * **reversals_phase_contrast** - measures the rate of directional changes (reversals) of twitching cells
+  * **displacement_maps_speed** - measures cell speed and plots direction-corrected displacement maps (incremental displacement relative to the initial leading pole)
   * **pole_asymmetry_motile** - measures the size of subpopulations with symmetric and asymmetric protein localization between cell poles 
   * **alignment_motile** - measures the correlation of protein localization and twitching direction of the moving asymmetric subpopulation
-  * **pole2pole_oscillations** - measures at which rate the localization of a protein switches between poles
+  * **pole2pole_oscillations** - measures at which rate the localization of a protein (brightest polar fluorescent signal) switches between poles 
   * **polar_loc_speed_motile** - measures cell speed + distribution, polar protein localization + distribution in motile cells, polar protein localization vs cell speed in motile cells; can handle two fluorescent channels, plots also polar protein localization of channel 1 vs 2  
   
 * Additionally, there are a number of short auxiliary scripts used for data maintenance and quick checks 
  
  
- # How to use
+ # How to use - general workflow
  
 Some analyses are mainly used for phase contrast image sequences and don't require fluorescence microscopy. Other scripts combine cell tracking from phase contrast image sequences with fluorescence measurements. Some analysis steps require dedicated settings or scripts for phase contrast only and phase contrast + fluorescence data.
 
@@ -33,8 +33,82 @@ The general workflow is as follows:
  
  # Requirements
  
- * Type of data
- * ImageJ / Fiji / plugins - version
- * Matlab / toolboxes - version
- * BacStalk - version
+ * Microscopy image sequences of twitching rod-shaped bacteria with phase contrast or phase contrast + 1 or 2 fluorescent channels (depending on the type of analysis). Must be readable by Fiji ImageJ (.nd2 or .tif files work well). Note, with BacStalk only isolated bacteria are correctly segmented and tracked. For correct fluorescence measurement of the whole cell they must be flat on the microscope glass to ensure the whole cell body is in the same focal plane. 
+ * [**ImageJ/Fiji**](https://fiji.sc/) - version 1.53 or higher
+   * plugins contained in Fiji
+   * [StackReg](http://bigwww.epfl.ch/thevenaz/stackreg/) plugin
+   * [TurboReg](http://bigwww.epfl.ch/thevenaz/turboreg/) plugin
+   * [MultiStackReg](https://biii.eu/multistackreg) plugin
+ * [**MATLAB**](https://ch.mathworks.com/products/matlab.html) - version R2019b or higher
+   * [Image Processing Toolbox](https://ch.mathworks.com/products/image.html)
+   * [Parallel Computing Toolbox](https://ch.mathworks.com/products/parallel-computing.html?s_tid=srchtitle_Parallel%20Processing%20Toolbox_1)
+ * [**BacStalk**](https://drescherlab.org/data/bacstalk/docs/index.html) - version 1.8
  
+# Preparation
+
+* Prepare folders for data storage and results (can be the same folder too, but that may get messy)
+  * For data storage a big external (network) drive is recommended, needs lots of space
+  * One folder for each of your strains of interest will be generated by the ImageJ split_image script in the data storage folder
+  * In the results folder, create the following folders (jpg graphs are saved there):
+	* reversals_phase_contrast folder
+	* displacement_maps_speed folder
+	* pole_asymmetry_motile folder
+	* alignment_motile folder
+	* pole2pole_oscillations folder
+	* polar_loc_speed_motile folder
+	* each of those folder should also contain the following folders for other file types:
+		* mat_files folder
+		* svg _files folder
+		* fig_files folder
+
+* Make sure all directories in the ImageJ and Matlab scripts are matching your personal system's directories
+* You can search for "directory" in the scripts and modify them, but make sure to only modify strings and not change variable names!
+
+# How to run this code
+
+* Graph plotting contains different analysis scripts (see above for rough description) that will save plots in the results folders
+* They all require the same input file (located in graph_plotting) specifying which data to analyse and plot:
+	* Data_Input_Graph_Plotting.xlsx (what you enter here must match exactly how your files and folders are organized (i.e. named) by the ImageJ split_image script)
+      * each line represents one set of data
+      * **column 1** - strain number and name of your strain of interest (name of the folder in the data storage directory)
+      * **column 2** - date (name of the folder inside the strain number and name folder)
+      * **column 3** - condition (name of the folder inside the date folder)
+* They all require basic analysis with ImageJ and BacStalk
+  * **Basic_Analysis_Phase** - Run for image sequences with only phase contrast channel (displacement_maps_speed, reversals_phase_contrast)
+  * **Basic_Analysis_Fluo** - Run for image sequences with  phase contrast + 1 or 2 fluorescent channels (pole_asymmetry_motile, alignment_motile, pole2pole_oscillations, polar_loc_speed_motile)
+
+
+* Basic Analysis - ImageJ
+  * Run the split_image macros ([ImageJ/Fiji](https://fiji.sc/)) to prepare for BacStalk analysis
+    * **1_split_image.ijm** - for image sequences with first channel phase contrast + second channel fluorescence 
+	  * For only a phase contrast channel, activate option only_PC=1
+	  * For drift correction active option correct_drift=1
+	* **1_split_image_twoChannels.ijm** - for image sequences with first channel phase contrast + second channel fluorescence + third channel fluorescence 
+	  * For drift correction active option correct_drift=1
+	  * BacStalk will recognize two fluorescent channels by looking for the file C2-data.tif which is generated by this macro (1_split_image_twoChannels.ijm)
+	  * Note, second channel is only considered by analysis scripts that require a second channel (only polar_loc_speed_motile so far)
+  * If image sequences were recorded with very big field of view containing many cells, it can be helpful to split the movie into four sections
+    * **0_divide_image_onlyPC** - for image sequences with one phase contrast channel only
+	* Runs drift correction by default
+	* Disable drift correction in the split_image script when using this script
+
+* Basic Analysis - BacStalk
+  * Download stock [BacStalk](https://drescherlab.org/data/bacstalk/docs/index.html)
+	* Copy content into folder BacStalk_modified
+	* Skip files that already exist in the folder
+  * Run Basic_Analysis in [MATLAB](https://ch.mathworks.com/products/matlab.html)
+    * Enter multiple strains, dates and conditions that you want to analyse in the file Data_Input_Basic_Analysis.xlsx
+    * **Basic_Analysis_Phase.m** - Only considers the first channel (default phase contrast), can be run for two channel data too, but ignores the fluorescent channel
+    * **Basic_Analysis_Fluo.m** - Considers phase contrast (channel 1) and one fluorescent channel (channel 2), can do a second fluorescent channel which is saved as separate cell_prop_ch2 variable in variables.mat
+	
+* Basic Analysis - ImageJ post-processing and verification of tracking
+  * Run **2_make_video.ijm** to combine the images generated by Matlab containing the segmented cells and tracks (copy paste strain input from 1_split_image.ijm)
+  * Use **3_open_video.ijm** to open all movies of subfolders of one condition of one date of one strain (you select several condition folders and it will open all movies)
+  * **Check every movie for correct segmentation, tracking and separation into moving and non-moving cells**
+  * If necessary, change parameters for segmentation, tracking, or speed limit, then rerun the BacStalk analysis (yes, it makes sense to run for one image sequence first to find good parameters)
+  
+* Graph_plotting
+  * Run one of the graph_plotting scripts in [MATLAB](https://ch.mathworks.com/products/matlab.html)
+  * Enter multiple strains, dates and conditions that you want to analyse in the file Data_Input_Graph_Plotting.xlsx (you can copy past from Data_Input_Basic_Analysis.xlsx)
+  * In some scripts you can activate different graphs to plot or different options to analyse the data (such as use mean or max polar fluorescence, etc.)
+  * No guaranty everything is well commented in the scripts. After all this is still quite an unstructured work-in-progress by different people.

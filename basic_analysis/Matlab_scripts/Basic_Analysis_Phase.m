@@ -3,7 +3,7 @@ close all
 clear all
 
 %% To Modify:
-directory='H:\Iscia_WS\PersatLAb-master\'; % project folder where scripts are
+directory='C:\Users\mkuehn\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where scripts are
 dir_func='C:\Users\mkuehn\git\bs_Twitch\';
 directory_data='G:\Marco\bs_Twitch_data_storage\'; % folder where the data is (the one split by ImageJ
 
@@ -14,11 +14,11 @@ Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
 
 % Select what part of the script to run
-change_parameters_format = 1; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
-do_BacStalk = 1; % 1 if YES 0 if NO
+change_parameters_format = 0; % 1 if YES 0 if NO: this creates a 'parameters.mat' document with the info needed for the analysis
+do_BacStalk = 0; % 1 if YES 0 if NO
 do_SaveVariables = 1;  % 1 if YES 0 if NO
 do_video = 1; % 1 if YES 0 if NO: creates movies with below conditions
-do_nonmoving = 0; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold
+do_nonmoving = 1; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold
 do_fluopoles = 0; % Has to be 0 here allways. No fluo in phase contrast!!!
 
 % for Backstalk:
@@ -32,7 +32,7 @@ dilation_width='0.5'; %in pixel
 % Jenal Mic [16 12 20 0.5]
 
 % speed limit (in pixel per frame, typically use 1, note: changes according to frame interval) 
-speed_limit=1;  % if set to 0 disables speed limit ("non_moving" cells will be empty) and not all downstream analysis scripts will work because some need a non-moving fraction
+speed_limit=0;  % if set to 0 disables speed limit ("non_moving" cells will be empty) and not all downstream analysis scripts will work because some need a non-moving fraction
 
 %% add path folder with functions
 addpath(strcat(dir_func,'Functions')); 
@@ -50,7 +50,7 @@ for d=1:1:size(dates,1)
     folders=dir(adresse_data);
     num_folders=length(folders)-2;
 
-    for folder=1:1:num_folders
+    for folder=1:1:1%num_folders
       Pil_nbr=folder
         %% Step 1:Load data
         adresse=strcat(adresse_data,'\',num2str(Pil_nbr));
