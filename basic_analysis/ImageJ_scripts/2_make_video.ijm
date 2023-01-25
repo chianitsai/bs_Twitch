@@ -10,12 +10,12 @@
 
 // TO MODIFY:
 
-number=newArray("1542"); 
-Pil_type=newArray("fliC- mNG_PilG chpA_AAA");
+number=newArray("177", "337", "1721", "1722"); 
+Pil_type=newArray("fliC-","fliC- cpdA-","fliC- cpdA_mNG","fliC- mNG_cpdA");
 
-dates=newArray("20221103"); // once per whole number array
-interval=newArray("5s interval-10min","5s interval-70min"); // once per whole number array
-dir_data="G:/Marco/bs_Twitch_data_storage/";
+dates=newArray("20230124"); // once per whole number array
+interval=newArray("5s interval-2h"); // once per whole number array
+dir_data="Z:/Gani/Twitching_Microscopy/bs_Twitch_data_storage/";
 
 do_fluocircles = 0;
 do_nonmoving = 1;
