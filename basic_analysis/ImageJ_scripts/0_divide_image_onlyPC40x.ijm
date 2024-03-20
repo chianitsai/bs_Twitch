@@ -10,7 +10,7 @@ movies_length=lengthOf(movies);
 
 for (j = 0; j < movies_length; j++) {
 
-	if (matches(movies[j], ".*2h37.*")) {
+	if (matches(movies[j], ".*2h_5s.*")) {
 		
 		dot = indexOf(movies[j], ".");
 		title = substring(movies[j], 0, dot);

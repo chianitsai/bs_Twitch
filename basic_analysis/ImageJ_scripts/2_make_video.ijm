@@ -10,14 +10,17 @@
 
 // TO MODIFY:
 
-number=newArray("177", "337", "1721", "1722"); 
-Pil_type=newArray("fliC-","fliC- cpdA-","fliC- cpdA_mNG","fliC- mNG_cpdA");
 
-dates=newArray("20230124"); // once per whole number array
+number=newArray("1756","2039","2040"); 
+Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA100","fliC- cyaB- pCuAlgent_mNG_cyaB_d1-216 CuA100","fliC- cyaB- pCuAlgent_mNG_cyaB_d220-416 CuA100");
+//"fliC- cyaB- pCuAlgent_mNG_cyaB CuA20",
+
+dates=newArray("20240319"); // once per whole number array
 interval=newArray("5s interval-2h"); // once per whole number array
-dir_data="Z:/Gani/Twitching_Microscopy/bs_Twitch_data_storage/";
+//dir_data="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/";
+dir_data="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/";
 
-do_fluocircles = 0;
+do_fluocircles = 1;
 do_nonmoving = 1;
 
 addition = ""; // addition to the filename "C_with_trajectory+addition+_1.tif", eg "_noSL". If no addition leave empty: ""

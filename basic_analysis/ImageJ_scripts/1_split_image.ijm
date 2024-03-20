@@ -7,31 +7,32 @@
 
 // TO MODIFY:
 
-index_int=4; // normally 2, for divided images 4
-index_time=5; // normally 3, for divided images 5
+index_int=2; // normally 2, for divided images 4
+index_time=3; // normally 3, for divided images 5
 
-
-number=newArray("177");
-Pil_type=newArray("fliC-"); 
+ 
+number=newArray("1756","2039","2040");
+Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA200","fliC- cyaB- pCuAlgent_mNG_cyaB_d1-216 CuA200","fliC- cyaB- pCuAlgent_mNG_cyaB_d220-416 CuA200"); 
 //number=newArray("177","337","1721","1722"); 
 //Pil_type=newArray("fliC-","fliC- cpdA-","fliC- cpdA_mNG","fliC- mNG_cpdA"); 
 
 same_date = 1; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20230124_Twitching_177_337_1721_1722/Tiles_5s"); // per number use / instead of \
-date=newArray("20230124"); // per number
+folder_name=newArray("20240319_Still_Twitching_1756_2039_2040_Cu100_Cu200/"); // per number use / instead of \
+date=newArray("20240319"); // per number
 
-match=".*2h_5s.*" // what to look for in file name
-dir_save="Z:/Gani/Twitching_Microscopy/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
-only_PC=1 // 1 if YES, 0 if NO
+match=".*200CuA.*2h_5s.*" // what to look for in file name
+//dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
+dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/"; // !! change here the directory where the folders are!!
+only_PC=0 // 1 if YES, 0 if NO
 correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
 
-reg_file_loc = "X:/Gani_WS/git/bs_Twitch_OldFork/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
+reg_file_loc = "X:/uppersat-raw/Gani_sv_WS/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
 
 // STEP 1: chose folder nd2 douments are
 //dir_data=getDirectory("Choose a Directory")
 
-dir_data = "Z:/Gani/Twitching_Microscopy/Widefield/"
+dir_data = "X:/uppersat-raw/Gani_sv_WS/Microscopy/Widefield/"
 
 setBatchMode(true)
 
