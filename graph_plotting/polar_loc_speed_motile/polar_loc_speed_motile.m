@@ -4,11 +4,11 @@ clear all
 close all
 
 %% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'G:\Marco\bs_Twitch_results\polar_loc_speed_motile\';
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/polar_loc_speed_motile/';
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
-save_graphs = 0;
+save_graphs = 1;
 two_ch = 0; % 1 if you want to plot from two channel data, 0 uses only the first channel even if there are two
 
 addition = ''; % filename addition of the variables.mat file: '_noSL' if speed_limit = 0
@@ -22,8 +22,8 @@ addpath('functions');
 if ~only_plot
   [data_dir_name, data_name] = save_polar_loc_speed_motile(mean_median,two_ch,addition,save_dir);
 else
-  data_dir = strcat(save_dir,'mat_files\');
-  data_name = '20221013_20221014_20221024_Strains_666_1633_polar_loc_speed_motile_noSL'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+  data_dir = strcat(save_dir,'mat_files/');
+  data_name = '20230308_Strains_1756_1792_polar_loc_speed_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
   data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -37,13 +37,13 @@ tos = "2h";
 plot_violin = 1; % plots distribution of single-track values as violin plot
 
 plot_speed = 1; % plots speed
-plot_polLoc = 0; % plots ratio polar intensity vs cytoplasm (polar localization motile index)
+plot_polLoc = 1; % plots ratio polar intensity vs cytoplasm (polar localization motile index)
 plot_polLoc_speed = 0; % plots polar localization motile index vs speed, single track
 plot_polLoc_vs = 0; % plots polar localization motile index of channel 1 vs 2
 plot_polLoc_speed_ch1polar = 0; % I wouldn't do this for more than 1 strain
 plot_polLoc_vs_ch1polar = 0; % I wouldn't do this for more than 1 strain
-plot_polAsym = 0; % plots the ratio of polar intensities between poles 1-(dim / bright)=Asymmetry Index
-plot_polAsym_speed = 0; % plots polAsym vs speed
+plot_polAsym = 1; % plots the ratio of polar intensities between poles 1-(dim / bright)=Asymmetry Index
+plot_polAsym_speed = 1; % plots polAsym vs speed
 plot_polLoc_vs_polAsym = 0; % plots polar localization motile index of channel 1 vs asymmetry index channel 2 (speed colour-coded)
 
 save_csv = 1; % exports the concatenated data to a csv file 
@@ -53,7 +53,7 @@ type_ratio = "mean"; % "mean" or "max" or "total"
 
 y_speed_vio = 0.25; % y-axis of speed plots 
 y_polLoc_vio = 2.5; % y-axis of pole vs cytoplasm ratio plots
-y_polAsym_vio = 0.9; % y-axis of polAsym plot
+y_polAsym_vio = 0.7; % y-axis of polAsym plot
 scaling_violin_speed = 0.02; % scaling width of violin plots
 scaling_violin_polLoc = 0.2; % scaling width of violin plots
 
@@ -131,8 +131,8 @@ if plot_speed
   graph_type = strcat('speed',addition);
   if save_graphs
     saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
   end
 end
 
@@ -182,15 +182,15 @@ if plot_polLoc
     end
   end
   
-  plot([0 nbr_strains+2],[no_polLoc no_polLoc],'k --','Linewidth',1)
-  text(0.03,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8) % this threshold should be checked again
+  % plot([0 nbr_strains+2],[no_polLoc no_polLoc],'k --','Linewidth',1)
+  % text(0.03,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8) % this threshold should be checked again
   title(strcat("Ratio pole / cytoplasm after ",tos," on surface"));
   
   graph_type = strcat('polLoc_ratio',addition,'_',type_ratio,'_',ch1);
   if save_graphs
     saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
   end
 end
 
@@ -240,15 +240,15 @@ if two_ch
         end
     end
 
-    plot([0 nbr_strains+2],[no_polLoc no_polLoc],'k --','Linewidth',1)
-    text(0.03,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8) % this threshold should be checked again
+    % plot([0 nbr_strains+2],[no_polLoc no_polLoc],'k --','Linewidth',1)
+    % text(0.03,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8) % this threshold should be checked again
     title(strcat("Ratio pole / cytoplasm after ",tos," on surface"));
 
     graph_type = strcat('polLoc_ratio',addition,'_',type_ratio,'_',ch2);
     if save_graphs
       saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-      saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-      saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+      saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+      saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
   end
 end
@@ -287,8 +287,8 @@ if plot_polLoc_speed
       plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
     end
       
-    plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
-    text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+    % plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+    % text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
     
     plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
     text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
@@ -298,8 +298,8 @@ if plot_polLoc_speed
     graph_type = strcat('polLoc_vs_speed',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch1);
     if save_graphs
       saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-      saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-      saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+      saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+      saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
   end  
 end
@@ -339,8 +339,8 @@ if two_ch
         plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_speed_st-0.001,no_polLoc+0.04,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      % text(y_speed_st-0.001,no_polLoc+0.04,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
       plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
@@ -350,8 +350,8 @@ if two_ch
       graph_type = strcat('polLoc_vs_speed',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch2);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
     end  
   end
@@ -393,19 +393,19 @@ if two_ch
         plot(polLocs_ch2,polLocs_ch1,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_polLoc_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_polLoc_st-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([0 y_polLoc_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      % text(y_polLoc_st-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
       
-      plot([no_polLoc no_polLoc],[0 y_polLoc_st],'k --','Linewidth',1)
-      text(no_polLoc+0.015,0.02,"rough localization threshold FimW",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([no_polLoc no_polLoc],[0 y_polLoc_st],'k --','Linewidth',1)
+      % text(no_polLoc+0.015,0.02,"rough localization threshold FimW",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
 
       title(strcat("Polar Loc ",ch1," vs ",ch2," after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
 
       graph_type = strcat('polLoc_ch1ch2',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
       
       
@@ -441,19 +441,19 @@ if two_ch
       cb = colorbar('TickLabels',colorTicks);
       cb.Label.String = "Speed (µm/s)";
       
-      plot([0 y_polLoc_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_polLoc_st-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([0 y_polLoc_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      % text(y_polLoc_st-0.003,no_polLoc+0.02,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
       
-      plot([no_polLoc no_polLoc],[0 y_polLoc_st],'k --','Linewidth',1)
-      text(no_polLoc+0.015,0.02,"rough localization threshold FimW",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([no_polLoc no_polLoc],[0 y_polLoc_st],'k --','Linewidth',1)
+      % text(no_polLoc+0.015,0.02,"rough localization threshold FimW",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
 
       title(strcat("Polar Loc ",ch1," vs ",ch2," after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
 
       graph_type = strcat('polLoc_ch1ch2_speedcolour',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
       
     end  
@@ -515,8 +515,8 @@ end
 %     graph_type = strcat('polLoc_vs_speed_polch1',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch1);
 %     if save_graphs
 % %       saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-% %       saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-% %       saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+% %       saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+% %       saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
 %     end
 %     
 %     
@@ -557,8 +557,8 @@ end
 %     graph_type = strcat('polLoc_vs_speed_nonpolch1',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch1);
 %     if save_graphs
 % %       saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-% %       saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-% %       saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+% %       saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+% %       saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
 %     end
 %   end  
 % end
@@ -607,8 +607,8 @@ if two_ch
         plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      % text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
       plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
@@ -618,8 +618,8 @@ if two_ch
       graph_type = strcat('polLoc_vs_speed_polch1',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch2);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
 
 
@@ -648,8 +648,8 @@ if two_ch
         plot(speeds,polLocs,"k o",'MarkerSize',5,'Linewidth',1) % plots polar localization motile index vs speed per track
       end
 
-      plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+      % plot([0 y_speed_st],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      % text(y_speed_st-0.001,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
       plot([no_move no_move],[0 y_polLoc_st],'k --','Linewidth',1)
       text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
@@ -659,8 +659,8 @@ if two_ch
       graph_type = strcat('polLoc_vs_speed_nonpolch1',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch2);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
     end  
   end
@@ -755,15 +755,15 @@ if two_ch
     xticks([0:1:nbr_strains*2+1])
     xtickangle(15)
 
-    plot([0 nbr_strains*2+1],[no_polLoc no_polLoc],'k --','Linewidth',1)
-    text(0.03,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8) % this threshold should be checked again
+    % plot([0 nbr_strains*2+1],[no_polLoc no_polLoc],'k --','Linewidth',1)
+    % text(0.03,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8) % this threshold should be checked again
     title(strcat(tos," surface |ch1 polar vs non-polar subpopulation|"));
 
     graph_type = strcat('polLoc_ratio_polnonpolch1',addition,'_',type_ratio,'_',ch2);
     if save_graphs
       saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-      saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-      saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+      saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+      saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end 
   end
 end
@@ -813,15 +813,15 @@ if plot_polAsym
     end
   end
   
-  plot([0 nbr_strains+2],[no_polAsym no_polAsym],'k --','Linewidth',1)
-  text(0.03,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8) % this threshold should be checked again
-  title(strcat("Asymmetry index after ",tos," on surface"));
+plot([0 nbr_strains+2],[no_polAsym no_polAsym],'k --','Linewidth',1)
+%   text(0.03,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8) % this threshold should be checked again
+title(strcat("Asymmetry index after ",tos," on surface"));
   
   graph_type = strcat('polAsym',addition,'_',type_ratio,'_',ch1);
   if save_graphs
     saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
   end
 end
 
@@ -871,15 +871,15 @@ if two_ch
         end
       end
 
-      plot([0 nbr_strains+2],[no_polAsym no_polAsym],'k --','Linewidth',1)
-      text(0.03,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8) % this threshold should be checked again
-      title(strcat("Asymmetry index after ",tos," on surface"));
+%       plot([0 nbr_strains+2],[no_polAsym no_polAsym],'k --','Linewidth',1)
+%       text(0.03,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8) % this threshold should be checked again
+%       title(strcat("Asymmetry index after ",tos," on surface"));
 
       graph_type = strcat('polAsym',addition,'_',type_ratio,'_',ch2);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
     end
 end
@@ -920,16 +920,16 @@ if plot_polAsym_speed
     plot([no_move no_move],[0 y_polAsym_vio],'k --','Linewidth',1)
     text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
     
-    plot([0 y_speed_st],[no_polAsym no_polAsym],'k --','Linewidth',1)
-    text(y_speed_st-0.001,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+%     plot([0 y_speed_st],[no_polAsym no_polAsym],'k --','Linewidth',1)
+%     text(y_speed_st-0.001,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
     
     title(strcat("Polar Asymmetry vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
     
     graph_type = strcat('polAsym_vs_speed',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch1);
     if save_graphs
       saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-      saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-      saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+      saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+      saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
   end  
 end
@@ -972,16 +972,16 @@ if two_ch
         plot([no_move no_move],[0 y_polAsym_vio],'k --','Linewidth',1)
         text(no_move+0.003,0.025,"rough no-move threshold",'FontSize',8,'rotation',-90,'HorizontalAlignment','right')
 
-        plot([0 y_speed_st],[no_polAsym no_polAsym],'k --','Linewidth',1)
-        text(y_speed_st-0.001,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+%         plot([0 y_speed_st],[no_polAsym no_polAsym],'k --','Linewidth',1)
+%         text(y_speed_st-0.001,no_polAsym+0.01,"rough symmetry threshold PilB",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
         title(strcat("Polar Asymmetry vs Speed after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
 
         graph_type = strcat('polAsym_vs_speed',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio,'_',ch2);
         if save_graphs
           saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-          saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-          saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+          saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+          saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
         end
       end  
     end
@@ -1026,19 +1026,19 @@ if two_ch
       cb = colorbar('TickLabels',colorTicks);
       cb.Label.String = "Speed (µm/s)";
       
-      plot([no_polAsym no_polAsym],[0 y_polLoc_st+0.1],'k --','Linewidth',1)
-      text(no_polAsym+0.005,0.01,"rough symmetry threshold PilB",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
+%       plot([no_polAsym no_polAsym],[0 y_polLoc_st+0.1],'k --','Linewidth',1)
+%       text(no_polAsym+0.005,0.01,"rough symmetry threshold PilB",'FontSize',8,'rotation',-90,'HorizontalAlignment','right') % this threshold should be checked again
       
-      plot([0 y_polLoc_st+0.1],[no_polLoc no_polLoc],'k --','Linewidth',1)
-      text(y_polAsym_vio-0.004,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
+     %  plot([0 y_polLoc_st+0.1],[no_polLoc no_polLoc],'k --','Linewidth',1)
+      % text(y_polAsym_vio-0.004,no_polLoc+0.03,"rough localization threshold FimW",'FontSize',8,'HorizontalAlignment','right') % this threshold should be checked again
 
       title(strcat("Polar Loc ",ch1," vs ",ch2," after ",tos," on surface (",type,", ",num2str(nbr_replicates)," reps, ",num2str(polar_loc_speed_motile_concat{strain,7})," tracks)"),'Interpreter','none');
 
       graph_type = strcat('polLoc_ch1_asymIndex_ch2_speedcolour',addition,'_',num2str(sscanf(type,'%i')),'_',type_ratio);
       if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
       end
       
     end  
@@ -1094,7 +1094,7 @@ if save_csv
         
         if save_graphs
             dates_strain = strjoin(polar_loc_speed_motile_concat{strain, 2},'_');
-            writecell(export,strcat(save_dir,'export_files\',dates_strain,"_",type,'.csv'));
+            writecell(export,strcat(save_dir,'export_files/',dates_strain,"_",type,'.csv'));
         end
     end
 end

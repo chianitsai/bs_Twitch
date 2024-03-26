@@ -39,10 +39,10 @@ func_mean_median = str2func(mean_median); % makes a function out of the string m
 
 %% To modify:
 
-dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
-dir_data='G:\Marco\bs_Twitch_data_storage\';
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = strcat(save_dir,'mat_files\');
+dir_data_input='/Volumes/Gani_sv_WS/git/bs_Twitch/graph_plotting/';
+dir_data='/Volumes/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/';
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = strcat(save_dir,'mat_files/');
 addpath(strcat(dir_func,'Functions'));
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
@@ -67,7 +67,7 @@ for strain=1:1:nbr_Pil_types
     
     disp(strcat("Working on strain ",Pil_type," date ",date," ",interval))
     
-    adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
+    adresse_data=strcat(dir_data,Pil_type,'/',date,'/',interval,'/');
 %     num_folder=length(dir(adresse_data))-2;
     [num_folder] = correct_folder_number(adresse_data);
 
@@ -78,8 +78,8 @@ for strain=1:1:nbr_Pil_types
     %% Load variables and add path
     adresse=strcat(adresse_data,num2str(folder));
     addpath(adresse)
-    load(strcat(adresse,'\variables',addition,'.mat'),'cell_prop','BactID','Data_speed')
-    load(strcat(adresse,'\parameters.mat'),'delta_x');
+    load(strcat(adresse,'/variables',addition,'.mat'),'cell_prop','BactID','Data_speed')
+    load(strcat(adresse,'/parameters.mat'),'delta_x');
     
     nbr_bact=size(BactID,1);
 
@@ -204,7 +204,7 @@ if two_ch
 
         disp(strcat("Working on strain ",Pil_type," date ",date," ",interval," channel 2"))
 
-        adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
+        adresse_data=strcat(dir_data,Pil_type,'/',date,'/',interval,'/');
         num_folder=length(dir(adresse_data))-2;
 
       %% Step 1: get and save speed + polar vs cytoplasmic ratio
@@ -215,8 +215,8 @@ if two_ch
         addpath(strcat(dir_func,'Functions'));
         adresse=strcat(adresse_data,num2str(folder));
         addpath(adresse)
-        load(strcat(adresse,'\variables',addition,'.mat'),'cell_prop_ch2','BactID','Data_speed')
-        load(strcat(adresse,'\parameters.mat'),'delta_x');
+        load(strcat(adresse,'/variables',addition,'.mat'),'cell_prop_ch2','BactID','Data_speed')
+        load(strcat(adresse,'/parameters.mat'),'delta_x');
 
         nbr_bact=size(BactID,1);
 
