@@ -15,7 +15,7 @@ for d=1:1:size(dates_B,1) % sometimes has to be 1, sometimes 2, who knows why
 %     date=dates_B{d}; % for Iscia's version of save_distribution_asym_sym
     interval=intervals_B{d}
     
-    adresse_folder=strcat(directory1,Pil_type,'\',date,'\',interval);
+    adresse_folder=strcat(directory1,Pil_type,'/',date,'/',interval);
 %     num_folder=length(dir(adresse_folder))-2;
     [num_folder] = correct_folder_number(adresse_folder);
     
@@ -25,7 +25,7 @@ for d=1:1:size(dates_B,1) % sometimes has to be 1, sometimes 2, who knows why
         mean_ratio_moving=[];
         j=j+1;
         Pil_nbr=folder;
-        adresse_data=strcat(directory1,Pil_type,'\',date,'\',interval,'\',num2str(Pil_nbr));
+        adresse_data=strcat(directory1,Pil_type,'/',date,'/',interval,'/',num2str(Pil_nbr));
         addpath(adresse_data) % for the folder
         load('variables.mat','cell_prop','cell_prop_non_moving','BactID','BactID_non_moving')
      

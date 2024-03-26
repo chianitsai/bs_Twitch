@@ -10,22 +10,22 @@ clear all
 close all
 
 %% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'G:\Marco\bs_Twitch_results\pole_asymmetry_motile\';
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/pole_asymmetry_motile/';
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
 save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
 limite_ratio=0.69;
-useMax = 0; % Important: Added the option to use ratio of max pole intenstiy instead of mean. Function get_symm_asymm now requries useMax!
+useMax = 1; % Important: Added the option to use ratio of max pole intenstiy instead of mean. Function get_symm_asymm now requries useMax!
 
 %% Run save function
 addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_pole_asymmetry_motile(limite_ratio,useMax,save_dir);
 else
-    data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\pole_asymmetry_motile\mat_files\';
-    data_name = '20220726_20220728_20220729_20220804_Strains_1634_1635_1638_pole_asymmetry_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/pole_asymmetry_motile/mat_files/';
+    data_name = '20230331_Strains_1756_pole_asymmetry_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -136,6 +136,6 @@ xtickangle(15)
 graph_type = 'asymmetry_motile';
 if save_graphs
     saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
 end
