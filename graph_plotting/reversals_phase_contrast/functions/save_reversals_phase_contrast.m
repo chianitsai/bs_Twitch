@@ -36,10 +36,10 @@ function [save_dir_name, save_name] = save_reversals_phase_contrast(save_dir)
             % iii) column3: RMSD of moving NOT reversing cells
     
 
-dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
-dir_data='G:\Marco\bs_Twitch_data_storage\';
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = strcat(save_dir,'mat_files\');
+dir_data_input='/Volumes/Gani_WS/git/bs_Twitch/graph_plotting/';
+dir_data='/Volumes/Gani_WS/bs_Twitch_data_storage/';
+dir_func='/Volumes/Gani_WS/git/bs_Twitch/';
+save_dir = strcat(save_dir,'mat_files/');
 addpath(strcat(dir_func,'Functions'));
 
 %% To modify:
@@ -67,7 +67,7 @@ for type=1:1:size(Pil_types,1)
     date=num2str(dates(type))
     interval=intervals{type}
     
-    adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
+    adresse_data=strcat(dir_data,Pil_type,'/',date,'/',interval,'/');
 %     num_folder=length(dir(adresse_data))-2;
     [num_folder] = correct_folder_number(adresse_data); 
     
@@ -81,15 +81,15 @@ for type=1:1:size(Pil_types,1)
     %% Load variables and add path
     adresse=strcat(adresse_data,num2str(folder))
     addpath(adresse)
-    load(strcat(adresse,'\variables.mat'),'cell_prop','BactID','Data_speed', 'BactID_non_moving')
-    load(strcat(adresse,'\parameters.mat'),'delta_t');
+    load(strcat(adresse,'/variables.mat'),'cell_prop','BactID','Data_speed', 'BactID_non_moving')
+    load(strcat(adresse,'/parameters.mat'),'delta_t');
 
     %% Step 1: Calculate reversals
     [reversal,RMSD_total_tmp]=get_reversals_phase_contrast(cell_prop,BactID,Data_speed);
     RMSD_total=[RMSD_total,RMSD_total_tmp]; %% the RMSD off all cells, here RMSD_total contains all cells of 1 type.
 
     %% Step 2: Save reversals
-    filename=strcat(adresse,'\variables.mat');
+    filename=strcat(adresse,'/variables.mat');
     save(filename,'reversal', '-append') % to add the reversal data in the 'variables.mat'
 
     %% Step 3: Count reversals and jiggles

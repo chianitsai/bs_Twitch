@@ -3,8 +3,8 @@ clear all
 close all
 
 %% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'G:\Marco\bs_Twitch_results\reversals_phase_contrast\';
+dir_func='/Volumes/Gani_WS/git/bs_Twitch/';
+save_dir = '/Volumes/Gani_WS/bs_Twitch_results/reversals_phase_contrast/';
 
 %% To modify:
 title_graph = "Time on surface = 2h"; %    Min limit time=2   Reversal time=5';
@@ -18,8 +18,8 @@ rmsd_only = 0; % plots the median of the medians of the root mean square displac
 rev_rmsd = 0; % normalization by rmsd, doesn't make so much sense
 % !!!
 
-y_revs = 30; % for reversal frequencies typically 55, for number of reversing cells typically below 1
-aspect = 2; % divides the figure width (normally screen width) by given number
+y_revs = 12; % for reversal frequencies typically 55, for number of reversing cells typically below 1
+aspect = 2.5; % divides the figure width (normally screen width) by given number
 plot_CI95 = 0; 
     plot_bs = 0; % decide if plotting "normal" CI95 or bootstrap CI95
 plot_stdev = 0; 
@@ -35,8 +35,8 @@ addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_reversals_phase_contrast(save_dir);
 else
-    data_dir = 'G:\Marco\bs_Twitch_results\reversals_phase_contrast\mat_files\';
-    data_name = 'too_many_dates_Strains_232_ 337_ 342_ 459_1278_1537_reversals_phase_contrast'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_dir = '/Volumes/Gani_WS/bs_Twitch_results/reversals_phase_contrast/mat_files/';
+    data_name = 'manydates_Strains_1765_1770_1783_1788_1789_1822_reversals_phase_contrast'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -157,6 +157,6 @@ end
 graph_type = 'reversals_phase_contrast';
 if save_graphs
     saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
 end
