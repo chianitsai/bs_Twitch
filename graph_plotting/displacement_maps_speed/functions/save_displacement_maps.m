@@ -12,15 +12,15 @@ function [save_dir_name, save_name] = save_displacement_maps(save_dir)
         % 3: cell with 4 columns of displacement and speed data
             % 1: bact_id (which really is the id of the track; one cell can have multiple track ids!
             % 2: length of track (in timepoints)
-            % 3: direction-corrected displacement in µm (using non-speed-filtered displacement and rounded alignment factor of unitary speed and unitary cell direction vector)
-            % 4: filtered speed in µm/s            
+            % 3: direction-corrected displacement in Âµm (using non-speed-filtered displacement and rounded alignment factor of unitary speed and unitary cell direction vector)
+            % 4: filtered speed in Âµm/s            
 
 %% To modify:
 
-dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
-dir_data='G:\Marco\bs_Twitch_data_storage\';
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = strcat(save_dir,'mat_files\');
+dir_data_input='/Volumes/Gani_sv_WS/git/bs_Twitch/graph_plotting/';
+dir_data='/Volumes/Gani_sv_WS/bs_Twitch_data_storage/'; %get data analysed from ONLY phase contrast images.
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = strcat(save_dir,'mat_files/');
 addpath(strcat(dir_func,'Functions'));
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
@@ -41,7 +41,7 @@ for type=1:1:size(Pil_types,1)
     date=convertCharsToStrings(num2str(dates(type)))
     interval=convertCharsToStrings(intervals{type})
     
-    adresse_data=strcat(dir_data,Pil_type,'\',date,'\',interval,'\');
+    adresse_data=strcat(dir_data,Pil_type,'/',date,'/',interval,'/');
 %     num_folder=length(dir(adresse_data))-2;
     [num_folder] = correct_folder_number(adresse_data);
 
@@ -52,8 +52,8 @@ for type=1:1:size(Pil_types,1)
     %% Load variables and add path
     adresse=strcat(adresse_data,num2str(folder))
     addpath(adresse)
-    load(strcat(adresse,'\variables.mat'),'cell_prop','BactID','Data_speed')
-    load(strcat(adresse,'\parameters.mat'),'delta_x');
+    load(strcat(adresse,'/variables.mat'),'cell_prop','BactID','Data_speed')
+    load(strcat(adresse,'/parameters.mat'),'delta_x');
     
     nbr_bact=size(BactID,1);
 
@@ -67,7 +67,7 @@ for type=1:1:size(Pil_types,1)
         
         disp = {[],[],0};        
         for t = 2:1:tracked_time
-            disp{t,1} = [CM(t,1)-CM(t-1,1) CM(t,2)-CM(t-1,2)] * delta_x; % displacement vector in µm
+            disp{t,1} = [CM(t,1)-CM(t-1,1) CM(t,2)-CM(t-1,2)] * delta_x; % displacement vector in Âµm
             disp{t,3} = norm(disp{t,1}); % norm of discplacement vector
             if disp{t,3}>0
                 disp{t,2} = disp{t,1} / disp{t,3}; % unitary displacement vector

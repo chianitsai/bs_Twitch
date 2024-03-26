@@ -8,8 +8,8 @@
         % 3: cell with 4 columns of displacement and speed data
             % 1: bact_id (which really is the id of the track; one cell can have multiple track ids!
             % 2: length of track (in timepoints)
-            % 3: direction-corrected displacement in µm (using non-speed-filtered displacement and rounded alignment factor of unitary speed and unitary cell direction vector)
-            % 4: filtered speed in µm/s for each timepoint of the track (thresholded for speed limit in BacStalk code)
+            % 3: direction-corrected displacement in Âµm (using non-speed-filtered displacement and rounded alignment factor of unitary speed and unitary cell direction vector)
+            % 4: filtered speed in Âµm/s for each timepoint of the track (thresholded for speed limit in BacStalk code)
             % 5: median speed over all timepoints (only using timepoints with speed above speed limit)
         % 4: number of tracks that meet the conditions set below (min and max tracked)
         % 5: median of column 5 of cell in column 3
@@ -21,10 +21,10 @@ clear all
 close all
 
 %% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'G:\Marco\bs_Twitch_results\displacement_maps_speed\';
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/displacement_maps_speed/';
 
-only_plot = 1; % if 0 reads, analyses and saves before plotting
+only_plot = 0; % if 0 reads, analyses and saves before plotting
 save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
 %% Run save function
@@ -32,8 +32,8 @@ addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_displacement_maps(save_dir);
 else
-    data_dir = strcat(save_dir,'mat_files\');
-    data_name = 'too_many_dates_Strains_177_ 337_1143_1144_1185_1186_1277_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_dir = strcat(save_dir,'mat_files/');
+    data_name = '20230815_Strains_1756_2038_2039_2040_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -45,8 +45,8 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 tos = "2h";
 IntervalTime = 5; % in sec
 
-min_tracked = 31; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
-max_tracked = 62; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
+min_tracked = 11; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
+max_tracked = 61; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
 
 desired_tracks = 50; % maximum number of tracks to plot. if less tracks in real_displacement_results, takes max available
 
@@ -54,12 +54,12 @@ plot_speed_cut = 0; % Note, plots speed of tracked-frame-thresholded tracks!
 plot_speed_all = 1; % Note, plots speed of all cells
 plot_violin = 1;
 plot_histograms = 0;
-plot_maps = 0; % !!! only works with maximum 3, in words THREE, replicates !!!
+plot_maps = 1; % !!! only works with maximum 3, in words THREE, replicates !!!
 
-y_speed = 0.5;  % y-axis of speed plots
-scaling_violin = 0.075; % scaling width of violin plots
+y_speed = 0.25;  % y-axis of speed plots
+scaling_violin = 0.05; % scaling width of violin plots
 
-xLo = -20; xHi = 40; yLo = 0; yHi = 150; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
+xLo = -20; xHi = 40; yLo = 0; yHi = 120; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
 
 aspect_maps = 1; % 1/aspect_maps = width of the displacement maps
 aspect_speed = 2; % 1/aspect_speed = width of the speed plot
@@ -152,7 +152,7 @@ if plot_speed_all
     set(gca, 'XTickLabel',["",Pil_types(1:nbr_strains)], 'Fontsize',15, 'Ticklabelinterpreter', 'none')
     xticks([0:1:nbr_strains+1])
     xtickangle(15)
-    ylabel("Twitching Speed (µm/s)")
+    ylabel("Twitching Speed (Âµm/s)")
 
 %         colour_speed = ["r o","b o","g o","k o","c o","m o","y o"];
     colour_speed = ["k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o"];
@@ -183,8 +183,8 @@ if plot_speed_all
     graph_type = 'speed_all';
     if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end
 
@@ -277,7 +277,7 @@ if plot_speed_cut
     set(gca, 'XTickLabel',["",Pil_types(1:nbr_strains)], 'Fontsize',15, 'Ticklabelinterpreter', 'none')
     xticks([0:1:nbr_strains+1])
     xtickangle(15)
-    ylabel("Twitching Speed (µm/s)")
+    ylabel("Twitching Speed (Âµm/s)")
 
 %         colour_speed = ["r o","b o","g o","k o","c o","m o","y o"];
     colour_speed = ["k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o","k o"];
@@ -312,8 +312,8 @@ if plot_speed_cut
     graph_type = 'speed_cut';
     if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end
 
@@ -600,12 +600,12 @@ if plot_maps
     end
     legend(dummy,leg,'Fontsize',15,'Interpreter','none')
     ylabel('Time (s)')
-    xlabel('Displacement (µm)')
+    xlabel('Displacement (Âµm)')
     
     graph_type = 'displacement_maps';
     if save_graphs
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end
