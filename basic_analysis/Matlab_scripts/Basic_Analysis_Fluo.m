@@ -3,12 +3,12 @@ close all
 clear all
 
 %% To Modify:
-dir_BacStalk='C:\Users\mkuehn\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where BacStalk modified is
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-directory_data='G:\Marco\bs_Twitch_data_storage\'; % folder where the data is (the one split by ImageJ
+dir_BacStalk='X:\uppersat-raw\Gani_sv_WS\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where BacStalk modified is
+dir_func='X:\uppersat-raw\Gani_sv_WS\git\bs_Twitch\';
+directory_data='X:\uppersat-raw\Gani_sv_WS\bs_Twitch_data_storage\Fluorescence\'; % folder where the data is (the one split by ImageJ
 
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
-[num,txt,~]=xlsread('Data_Input_Basic_Analysis.xlsx'); % must be located in 'directory'
+[num,txt,~]=xlsread('Data_Input_Basic_Analysis_Fluo.xlsx'); % must be located in 'directory'
 dates = num(:,1); % read as a column vector
 Pil_types = txt(:,1); % read as a cell with one column
 intervals = txt(:,3); % read as a cell with one column
@@ -18,8 +18,8 @@ change_parameters_format = 1; % 1 if YES 0 if NO: this creates a 'parameters.mat
 do_BacStalk = 1; % 1 if YES 0 if NO
 do_SaveVariables = 1;  % 1 if YES 0 if NO
 do_video = 1; % 1 if YES 0 if NO: creates movies with below conditions
-do_nonmoving = 0; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
-do_fluopoles = 0; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
+do_nonmoving = 1; % 1 if YES 0 if NO: makes movie of non-moving cells - just to check correct speed threshold !Won't do it when speed_limit=0!
+do_fluopoles = 1; % 1 if YES 0 if NO: makes movie including pole ROIs - just to check correct placement of ROIs
 
 % for Backstalk:
 mean_cell_size='8'; %in pixel
@@ -32,7 +32,7 @@ dilation_width='0.5'; %in pixel
 % Jenal Mic [16 12 20 0.5]
 
 % speed limit (in pixel per frame, typically use 1, note: changes according to frame interval) 
-speed_limit=0;  % if set to 0 disables speed limit ("non_moving" cells will be empty) and not all downstream analysis scripts will work because some need a non-moving fraction
+speed_limit=1;  % if set to 0 disables speed limit ("non_moving" cells will be empty) and not all downstream analysis scripts will work because some need a non-moving fraction
 
 %------------------------------------------------------------------------------------------------
 %% add path folder with functions

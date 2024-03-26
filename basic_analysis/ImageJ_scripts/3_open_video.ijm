@@ -8,7 +8,7 @@
 
 print("\\Clear");
 
-do_non_moving = 1;
+do_non_moving = 0;
 
 addition = ""; // addition to the filename "C_with_trajectory+addition+_1.tif", eg "_noSL". If no addition leave empty: ""
 

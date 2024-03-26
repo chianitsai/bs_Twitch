@@ -3,10 +3,9 @@ close all
 clear all
 
 %% To Modify:
-directory='X:\Gani_WS\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where scripts are
-dir_func='X:\Gani_WS\git\bs_Twitch\';
-directory_data='Z:\Gani\Twitching_Microscopy\bs_Twitch_data_storage\'; % folder where the data is (the one split by ImageJ
-
+directory='X:\uppersat-raw\Gani_sv_WS\git\bs_Twitch\basic_analysis\Matlab_scripts\'; % project folder where scripts are
+dir_func='X:\uppersat-raw\Gani_sv_WS\git\bs_Twitch\';
+directory_data='X:\uppersat-raw\Gani_sv_WS\bs_Twitch_data_storage\'; % folder where the data is (the one split by ImageJ
 % Select folders from csv file (Format column 1, 2, 3 must be Pil_types, dates, intervals, respectively)
 [num,txt,~]=xlsread('Data_Input_Basic_Analysis.xlsx'); % must be located in 'directory'
 dates = num(:,1); % read as a column vector
@@ -50,7 +49,7 @@ for d=1:1:size(dates,1)
     folders=dir(adresse_data);
     num_folders=length(folders)-2;
 
-    for folder=2:1:8%num_folders
+    for folder=1:1:num_folders
       Pil_nbr=folder
         %% Step 1:Load data
         adresse=strcat(adresse_data,'\',num2str(Pil_nbr));
