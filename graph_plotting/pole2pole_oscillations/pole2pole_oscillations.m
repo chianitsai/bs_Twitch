@@ -2,35 +2,35 @@ close all
 clear all
 
 %% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'G:\Marco\bs_Twitch_results\pole2pole_oscillations\';
+dir_func='/Volumes/Gani_WS/git/bs_Twitch/';
+save_dir = '/Volumes/Gani_WS/bs_Twitch_results/pole2pole_oscillations/';
 
 %% Enter dreams, desires and wishes
 
-combined = 1;    move = 0; % both 0 for non-moving
+combined = 1;    move = 1; % both 0 for non-moving
 filtered = 0; % filters out pole2pole switches that occur in subsequent frames, i.e. that last just one frame
 
-time_early = "10min"; %"10min"; % has to match the "early" interval
-time_late = "70min"; %"60min"; % has to match the "late" interval
+time_early = "2sec"; %"10min"; % has to match the "early" interval
+time_late = "5min"; %"60min"; % has to match the "late" interval
 
 y_ax_hist = 1; % sets the y axis of the histrograms
 y_ax_freq = 4; % sets the y axis of the total frequency plot and per cell frequency plot
 
 only_plot = 0; % if 0 reads, analyses and saves before plotting
-do_save = 0; % if 0, doesn't save the graphs
+do_save = 1; % if 0, doesn't save the graphs
 
 % decide which plots to plot and save
 plot_histograms = 1;
 plot_fracosc = 1;
 plot_freqtot = 1;
-plot_freqcellmean = 0;
+plot_freqcellmean = 1;
 
 %% Run save function
 addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_pole2pole_oscillations(combined,move,filtered,save_dir);
 else
-    data_dir = 'G:\Marco\bs_Twitch_results\pole2pole_oscillations\mat_files\';
+    data_dir = 'Z:/Gani_WS/bs_Twitch_results/pole2pole_oscillations/mat_files/';
     data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
@@ -111,8 +111,8 @@ if plot_histograms
     if do_save
         graph_type = 'pole2pole_osc_hist';
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end
 
@@ -167,8 +167,8 @@ if plot_fracosc
     if do_save
         graph_type = 'pole2pole_osc_frac';
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end
 
@@ -224,8 +224,8 @@ if plot_freqtot
     if do_save
         graph_type = 'pole2pole_osc_freqtot';
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end
 
@@ -281,7 +281,7 @@ if plot_freqcellmean
     if do_save
         graph_type = 'pole2pole_osc_freqcellmean';
         saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-        saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-        saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+        saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+        saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
     end
 end

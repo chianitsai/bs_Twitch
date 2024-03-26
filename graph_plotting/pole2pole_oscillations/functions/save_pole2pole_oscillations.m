@@ -1,9 +1,9 @@
 function [save_dir_name, save_name] = save_pole2pole_oscillations(combined,move,filtered,save_dir)
 
-dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
-dir_data='G:\Marco\bs_Twitch_data_storage\';
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = strcat(save_dir,'mat_files\');
+dir_data_input='/Volumes/Gani_WS/git/bs_Twitch/graph_plotting/';
+dir_data='/Volumes/Gani_WS/bs_Twitch_data_storage/Fluorescence/';
+dir_func='/Volumes/Gani_WS/git/bs_Twitch/';
+save_dir = strcat(save_dir,'mat_files/');
 
 %% load functions
 addpath(strcat(dir_func,'Functions')); 
@@ -35,13 +35,13 @@ for sample = 1:size(intervals,1)
     date = dates(sample);
     interval = intervals{sample};
 
-    adresse_folder = strcat(dir_data,Pil_type,'\',num2str(date),'\',interval);
+    adresse_folder = strcat(dir_data,Pil_type,'/',num2str(date),'/',interval);
 %     num_folder = length(dir(adresse_folder))-2;
     [num_folder] = correct_folder_number(adresse_folder);
 
     %% Loop over all folders
     for folder = 1:num_folder
-        adresse_data=strcat(dir_data,Pil_type,'\',num2str(date),'\',interval,'\',num2str(folder));
+        adresse_data=strcat(dir_data,Pil_type,'/',num2str(date),'/',interval,'/',num2str(folder));
         addpath(adresse_data)
         
         if combined
