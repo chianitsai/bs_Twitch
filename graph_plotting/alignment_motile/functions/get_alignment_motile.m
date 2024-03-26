@@ -15,7 +15,7 @@ for d=1:1:size(dates,1) % sometimes has to be 1, sometimes 2, who knows why
         date=dates{d}
         interval=intervals{d}
 
-        adresse_folder=strcat(directory1,Pil_type,'\',num2str(date),'\',interval);
+        adresse_folder=strcat(directory1,Pil_type,'/',num2str(date),'/',interval);
 %         num_folder=length(dir(adresse_folder))-2;
         [num_folder] = correct_folder_number(adresse_folder);
         
@@ -23,7 +23,7 @@ for d=1:1:size(dates,1) % sometimes has to be 1, sometimes 2, who knows why
             i=i+1;
             Median_value=[];
             Pil_nbr=folder;
-            adresse_data=strcat(directory1,Pil_type,'\',num2str(date),'\',interval,'\',num2str(Pil_nbr));
+            adresse_data=strcat(directory1,Pil_type,'/',num2str(date),'/',interval,'/',num2str(Pil_nbr));
             addpath(adresse_data)
             load('variables.mat','BactID','Data_alignment','cell_prop')
             

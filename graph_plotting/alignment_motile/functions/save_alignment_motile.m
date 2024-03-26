@@ -1,10 +1,10 @@
 function [save_dir_name, save_name] = save_displacement_maps(limit_ratio,alignment_limit,save_dir)
 % run before for graph alignement 
 
-dir_data_input='C:\Users\mkuehn\git\bs_Twitch\graph_plotting\';
-dir_data='G:\Marco\bs_Twitch_data_storage\';
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = strcat(save_dir,'mat_files\');
+dir_data_input='/Volumes/Gani_sv_WS/git/bs_Twitch/graph_plotting/';
+dir_data='/Volumes/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/';
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = strcat(save_dir,'mat_files/');
 
 %% load functions
 addpath(strcat(dir_func,'Functions')); 

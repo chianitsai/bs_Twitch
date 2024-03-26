@@ -5,16 +5,16 @@ clear all
 close all
 
 %% Pre-run Settings
-dir_func='C:\Users\mkuehn\git\bs_Twitch\';
-save_dir = 'G:\Marco\bs_Twitch_results\alignment_motile\';
+dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
+save_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/alignment_motile/';
 
 %% Modify
 only_plot = 0; % if 0 reads, analyses and saves before plotting
 save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
-aspect = 1/3; % width of the graph
+aspect = 1/(2); % width of the graph
 
-limit_ratio=0.69; % ratio of intensity of the two poles; for all cells set limit to 1
+limit_ratio=1; % ratio of intensity of the two poles; for all cells set limit to 1
 alignment_limit=0; % alignment factor threshold (counts cells with alignment factor above this value)
 
 %% Run save function
@@ -22,8 +22,8 @@ addpath('functions');
 if ~only_plot
     [data_dir_name, data_name] = save_alignment_motile(limit_ratio,alignment_limit,save_dir);
 else
-    data_dir = 'C:\Users\mkuehn\git\bs_Twitch\results\alignment_motile\mat_files\';
-    data_name = 'file name'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/alignment_motile/mat_files/';
+    data_name = '20230331_Strains_1756_alignment_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -75,8 +75,8 @@ xtickangle(15)
 graph_type = 'alignment_motile';
 if save_graphs
     saveas(gcf,strcat(save_dir,save_name,graph_type,'.jpg'));
-    saveas(gcf,strcat(save_dir,'fig_files\',save_name,graph_type,'.fig'));
-    saveas(gcf,strcat(save_dir,'svg_files\',save_name,graph_type,'.svg'));
+    saveas(gcf,strcat(save_dir,'fig_files/',save_name,graph_type,'.fig'));
+    saveas(gcf,strcat(save_dir,'svg_files/',save_name,graph_type,'.svg'));
 end
 
 %% Histogram of all Alignment factors
