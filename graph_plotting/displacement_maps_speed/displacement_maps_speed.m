@@ -24,7 +24,7 @@ close all
 dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
 save_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/displacement_maps_speed/';
 
-only_plot = 0; % if 0 reads, analyses and saves before plotting
+only_plot = 1; % if 0 reads, analyses and saves before plotting
 save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
 %% Run save function
@@ -33,7 +33,7 @@ if ~only_plot
     [data_dir_name, data_name] = save_displacement_maps(save_dir);
 else
     data_dir = strcat(save_dir,'mat_files/');
-    data_name = '20230815_Strains_1756_2038_2039_2040_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_name = '20240712_Strains_177_1047_2453_2454_displacement_maps_speed'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -45,21 +45,21 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 tos = "2h";
 IntervalTime = 5; % in sec
 
-min_tracked = 11; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
+min_tracked = 31; % minimum frames that cell must be tracked to be considered, for typical 5min-5s movies 31 is ok
 max_tracked = 61; % maximum frames that cell can be tracked to be considered, for typical 5min-5s movies 61 is the max
 
 desired_tracks = 50; % maximum number of tracks to plot. if less tracks in real_displacement_results, takes max available
 
-plot_speed_cut = 0; % Note, plots speed of tracked-frame-thresholded tracks!
+plot_speed_cut = 1; % Note, plots speed of tracked-frame-thresholded tracks!
 plot_speed_all = 1; % Note, plots speed of all cells
-plot_violin = 1;
+plot_violin = 0;
 plot_histograms = 0;
-plot_maps = 1; % !!! only works with maximum 3, in words THREE, replicates !!!
+plot_maps = 0; % !!! only works with maximum 3, in words THREE, replicates !!!
 
-y_speed = 0.25;  % y-axis of speed plots
+y_speed = 0.35;  % y-axis of speed plots
 scaling_violin = 0.05; % scaling width of violin plots
 
-xLo = -20; xHi = 40; yLo = 0; yHi = 120; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
+xLo = -20; xHi = 30; yLo = 0; yHi = 150; % scaling of displacement map plots, for typical 5min-5s movies 150 is ok
 
 aspect_maps = 1; % 1/aspect_maps = width of the displacement maps
 aspect_speed = 2; % 1/aspect_speed = width of the speed plot

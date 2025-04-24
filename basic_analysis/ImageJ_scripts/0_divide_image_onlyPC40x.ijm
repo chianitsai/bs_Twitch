@@ -29,7 +29,7 @@ for (j = 0; j < movies_length; j++) {
 			run("Duplicate...", "duplicate");
 			makeRectangle(0, i*h/N, w/N, h/N);
 			run("Crop");
-			run("StackReg ", "transformation=Translation");
+			run("StackReg", "transformation=Translation");
 			//run("Reduce...", "reduction=5");
 			saveAs("Tiff", dir+File.separator+"Tiles_5s"+File.separator+title+"_sector_"+sector+".tif");
 			close();
@@ -41,7 +41,7 @@ for (j = 0; j < movies_length; j++) {
 			run("Duplicate...", "duplicate");
 			makeRectangle(w/N, i*h/N, w/N, h/N);
 			run("Crop");
-			run("StackReg ", "transformation=Translation");
+			run("StackReg", "transformation=Translation");
 			//run("Reduce...", "reduction=5");
 			saveAs("Tiff", dir+File.separator+"Tiles_5s"+File.separator+title+"_sector_"+sector+".tif");
 			close();

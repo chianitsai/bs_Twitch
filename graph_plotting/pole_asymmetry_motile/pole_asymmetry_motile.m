@@ -34,9 +34,9 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 
 %% Strains % Could still be done in a more elegant way!
 strain_1 = 1;
-strain_2 = 1;
-strain_3 = 1;
-strain_4 = 1;
+strain_2 = 0;
+strain_3 = 0;
+strain_4 = 0;
 strain_5 = 0;
 
 do_strain=[strain_1,strain_2,strain_3,strain_4,strain_5]; 

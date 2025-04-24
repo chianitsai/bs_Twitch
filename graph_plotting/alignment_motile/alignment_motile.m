@@ -9,10 +9,10 @@ dir_func='/Volumes/Gani_sv_WS/git/bs_Twitch/';
 save_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/alignment_motile/';
 
 %% Modify
-only_plot = 0; % if 0 reads, analyses and saves before plotting
+only_plot = 1; % if 0 reads, analyses and saves before plotting
 save_graphs = 1; % 1 saves the graphs, 0 does not save the graphs
 
-aspect = 1/(2); % width of the graph
+aspect = 1/(3); % width of the graph
 
 limit_ratio=1; % ratio of intensity of the two poles; for all cells set limit to 1
 alignment_limit=0; % alignment factor threshold (counts cells with alignment factor above this value)
@@ -23,7 +23,7 @@ if ~only_plot
     [data_dir_name, data_name] = save_alignment_motile(limit_ratio,alignment_limit,save_dir);
 else
     data_dir = '/Volumes/Gani_sv_WS/bs_Twitch_results/alignment_motile/mat_files/';
-    data_name = '20230331_Strains_1756_alignment_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
+    data_name = 'too_many_dates_Strains_1756_alignment_motile'; % if only_plot = 1 copy the name of the mat file you want to plot WITHOUT .mat
     data_dir_name = strcat(data_dir,data_name,'.mat');
 end
 
@@ -32,12 +32,13 @@ load(data_dir_name) % loads analysis file that was done with function "save_disp
 
 %% Strains % Could still be done in a more elegant way!
 strain_1 = 1;
-strain_2 = 1;
-strain_3 = 1;
-strain_4 = 1;
+strain_2 = 0;
+strain_3 = 0;
+strain_4 = 0;
 strain_5 = 0;
+strain_6 = 0;
 
-do_strain=[strain_1,strain_2,strain_3,strain_4,strain_5]; 
+do_strain=[strain_1,strain_2,strain_3,strain_4,strain_5,strain_6]; 
 
 %% Graph
 index=find(do_strain==1);
@@ -66,7 +67,7 @@ for i=1:1:nbr_collumn
      plot([type-0.1 type+0.1], [total_mean total_mean], 'k-','Linewidth',1.5);    
 end
 set(gca, 'XTickLabel',{'',align_counts{:,1}},'Fontsize',15,'TickLabelInterpreter','none')
-ylabel('Fraction of cells with Alignment > 0 (%)')
+ylabel('Fraction of cells moving towards bright pole with Alignment > 0 (%)')
 title('Moving Asymmetric Cells');
 axis([0 nbr_collumn+1 0 100])
 xticks([0:1:nbr_collumn+1])

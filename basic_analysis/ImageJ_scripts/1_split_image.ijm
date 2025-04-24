@@ -7,25 +7,28 @@
 
 // TO MODIFY:
 
-index_int=2; // normally 2, for divided images 4
-index_time=3; // normally 3, for divided images 5
+index_int=4; // normally 2, for divided images 4
+index_time=5; // normally 3, for divided images 5
 
- 
-number=newArray("1756","2039","2040");
-Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA200","fliC- cyaB- pCuAlgent_mNG_cyaB_d1-216 CuA200","fliC- cyaB- pCuAlgent_mNG_cyaB_d220-416 CuA200"); 
-//number=newArray("177","337","1721","1722"); 
-//Pil_type=newArray("fliC-","fliC- cpdA-","fliC- cpdA_mNG","fliC- mNG_cpdA"); 
+
+//number=newArray("1756","2582","2587","2588","2589","2590");
+//number=newArray("1756","2581","2583","2584","2585","2586"); 
+number=newArray("195", "914", "2293");
+
+//Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA20","fliC- cyaB- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- pilJ- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- pilG- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- fimL- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- chpA- pCuAlgent_mNeonGreen_cyaB_R456L CuA20"); 
+Pil_type=newArray("pilJ-", "WT", "pilJ Me1");
 
 same_date = 1; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20240319_Still_Twitching_1756_2039_2040_Cu100_Cu200/"); // per number use / instead of \
-date=newArray("20240319"); // per number
+folder_name=newArray("20240326_Twitching_195_914_2293/Tiles_5s/"); // per number use / instead of \
+date=newArray("20240326"); // per number
 
-match=".*200CuA.*2h_5s.*" // what to look for in file name
+match=".*5s.*" // what to look for in file name
+//dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/"; // !! change here the directory where the folders are!!
 //dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
-dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/"; // !! change here the directory where the folders are!!
-only_PC=0 // 1 if YES, 0 if NO
-correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
+dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/";
+only_PC=1 // 1 if YES, 0 if NO
+correct_drift=0 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
 
 reg_file_loc = "X:/uppersat-raw/Gani_sv_WS/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
 

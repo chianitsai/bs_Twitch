@@ -10,26 +10,26 @@
 index_int=2; // normally 2, for divided images 4
 index_time=3; // normally 3, for divided images 5
 
-number=newArray("1633"); 
-Pil_type=newArray("mNG_FimW FimX_mScI cpdA- pch-"); 
+number=newArray("923n2619"); 
+Pil_type=newArray("mNG_PilG mKate"); 
 
 same_date = 0; // if same date 1, uses the first date/folder_name entry for all numbers, otherwise put date/folder_name for every item of the number vector
 
-folder_name=newArray("20220812 Twitching Jenal FimXW double"); // per number use / instead of \
-date=newArray("20220812"); // per number
+folder_name=newArray("20250403_Laure_twitching"); // per number use / instead of \
+date=newArray("20250203"); // per number
 
-match=".*1p5h37_5s.*" // what to look for in file name
-dir_save="G:/Marco/bs_Twitch_data_storage/"; // !! change here the directory where the folders are!!
+match=".*_5s.*" // what to look for in file name
+dir_save="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Laure/"; // !! change here the directory where the folders are!!
 
 only_PC=0 // 1 if YES, 0 if NO
 correct_drift=1 // 1 if YES, 0 if NO -> runs MultiStackReg_translation plugin, works well with multi channel stacks
 
-reg_file_loc = "C:/Users/mkuehn/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
+reg_file_loc = "X:/uppersat-raw/Gani_sv_WS/git/bs_Twitch/basic_analysis/ImageJ_scripts/TransformationMatrices.txt"; // folder where registration file is saved, must exist
 
 // STEP 1: chose folder nd2 douments are
 //dir_data=getDirectory("Choose a Directory")
 
-dir_data = "G:/Marco/Twitching Microscopy/Widefield/"
+dir_data = "X:/uppersat-raw/Gani_sv_WS/Microscopy/Widefield/"
 
 setBatchMode(true)
 

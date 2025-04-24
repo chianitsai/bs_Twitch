@@ -11,16 +11,19 @@
 // TO MODIFY:
 
 
-number=newArray("1756","2039","2040"); 
-Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA100","fliC- cyaB- pCuAlgent_mNG_cyaB_d1-216 CuA100","fliC- cyaB- pCuAlgent_mNG_cyaB_d220-416 CuA100");
-//"fliC- cyaB- pCuAlgent_mNG_cyaB CuA20",
+//number=newArray("1756","2582","2587","2588","2589","2590"); 
+//number=newArray("1756","2581","2583","2584","2585","2586");
+number=newArray("177", "1047", "2634", "2635", "2636", "2637" ,"2638");
+//Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA20","fliC- cyaB- pCuAlgent_mNeonGreen_cyaB_E189R CuA20","fliC- cyaB- pilJ- pCuAlgent_mNeonGreen_cyaB_E189R CuA20","fliC- cyaB- pilG- pCuAlgent_mNeonGreen_cyaB_E189R CuA20","fliC- cyaB- fimL- pCuAlgent_mNeonGreen_cyaB_E189R CuA20","fliC- cyaB- chpA- pCuAlgent_mNeonGreen_cyaB_E189R CuA20");
+//Pil_type=newArray("fliC- cyaB- pCuAlgent_mNG_cyaB CuA20","fliC- cyaB- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- pilJ- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- pilG- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- fimL- pCuAlgent_mNeonGreen_cyaB_R456L CuA20","fliC- cyaB- chpA- pCuAlgent_mNeonGreen_cyaB_R456L CuA20"); 
+Pil_type=newArray("fliC-", "fliC- pilA-", "fliC- pilA_R36A", "fliC- pilA_E55D", "fliC- pilA_E55R", "fliC- pilA_E55A", "fliC- pilA_A75G");
 
-dates=newArray("20240319"); // once per whole number array
+dates=newArray("20241018"); // once per whole number array
 interval=newArray("5s interval-2h"); // once per whole number array
-//dir_data="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/";
-dir_data="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/";
+dir_data="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/";
+//dir_data="X:/uppersat-raw/Gani_sv_WS/bs_Twitch_data_storage/Fluorescence/";
 
-do_fluocircles = 1;
+do_fluocircles = 0;
 do_nonmoving = 1;
 
 addition = ""; // addition to the filename "C_with_trajectory+addition+_1.tif", eg "_noSL". If no addition leave empty: ""

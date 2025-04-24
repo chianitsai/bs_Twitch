@@ -44,7 +44,7 @@ for type=1:1:size(Pil_types,1)
     adresse_data=strcat(dir_data,Pil_type,'/',date,'/',interval,'/');
 %     num_folder=length(dir(adresse_data))-2;
     [num_folder] = correct_folder_number(adresse_data);
-
+    
   %% Loop over all folders
 
   disp_all_comb = [];
